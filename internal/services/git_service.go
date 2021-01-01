@@ -121,6 +121,7 @@ func unzip(zipFilePath string, destinationFilePath string) error {
 
 	return nil
 }
+
 // NewGitService ...
 func NewGitService(
 	config *config.Config,

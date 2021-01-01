@@ -17,7 +17,7 @@ var newCmd = &cobra.Command{
 		}
 		return nil
 	},
-	RunE:  generator.New,
+	RunE: generator.New,
 }
 
 var rootCmd = &cobra.Command{
