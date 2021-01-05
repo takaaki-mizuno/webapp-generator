@@ -2,42 +2,41 @@ package handlers
 
 import (
 	"github.com/omiselabs/opn-generator/config"
-	"github.com/omiselabs/opn-generator/internal"
 	"github.com/omiselabs/opn-generator/internal/services"
-	"github.com/omiselabs/opn-generator/pkg/open_api_spec"
 	"log"
 )
 
-// New ... make new project
-func NewHandler(projectName string, targetPath string, apiDefinitionPath string) error {
-	container := internal.BuildContainer()
-	var configInstance *config.Config
-	var gitServiceInterface services.GitServiceInterface
+// NewHandler ... handler for new command
+type NewHandler struct {
+	config         *config.Config
+	gitService     services.GitServiceInterface
+	userAPIService services.UserAPIServiceInterface
+}
 
-	if err := container.Invoke(func(
-		_configInstance *config.Config,
-		_gitServiceInterface services.GitServiceInterface,
-	) {
-		gitServiceInterface = _gitServiceInterface
-		configInstance = _configInstance
-	}); err != nil {
-		log.Fatal(err)
-		return err
-	}
-
-	err := gitServiceInterface.DownloadBoilerplate(targetPath, projectName)
+// Execute ... make new project
+func (handler *NewHandler) Execute(projectName string, targetPath string, apiDefinitionPath string) error {
+	err := handler.gitService.DownloadBoilerplate(targetPath, projectName)
 	if err != nil {
 		log.Fatal(err)
 		return err
 	}
 
 	if apiDefinitionPath != "" {
-		_, err := open_api_spec.Parse(apiDefinitionPath)
-		if err != nil {
-			log.Fatal(err)
-			return err
-		}
+		err = handler.userAPIService.GenerateUserAPI(targetPath, apiDefinitionPath, "golang")
 	}
 
 	return nil
+}
+
+// NewNewHandler ...
+func NewNewHandler(
+	config *config.Config,
+	gitService services.GitServiceInterface,
+	userAPIService services.UserAPIServiceInterface,
+) *NewHandler {
+	return &NewHandler{
+		config:         config,
+		gitService:     gitService,
+		userAPIService: userAPIService,
+	}
 }

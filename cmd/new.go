@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"github.com/omiselabs/opn-generator/internal"
 	"github.com/omiselabs/opn-generator/internal/handlers"
 	"github.com/spf13/cobra"
 	"log"
@@ -38,7 +39,19 @@ var newCmd = &cobra.Command{
 			log.Fatal(err)
 			return err
 		}
-		return handlers.NewHandler(args[0], currentPath, apiDefinitionPath)
+		container := internal.BuildContainer()
+		var newHandler *handlers.NewHandler
+
+		if err := container.Invoke(func(
+			_newHandler *handlers.NewHandler,
+		) {
+			newHandler = _newHandler
+		}); err != nil {
+			log.Fatal(err)
+			return err
+		}
+
+		return newHandler.Execute(args[0], currentPath, apiDefinitionPath)
 	},
 }
 
