@@ -23,3 +23,5 @@ report.html
 # ignore deployment secret files
 */**/secrets.yaml
 /database/csv
+
+sample.yaml

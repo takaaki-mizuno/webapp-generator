@@ -5,6 +5,6 @@ type MockUserAPIService struct {
 }
 
 // GenerateUserAPI ...
-func (service *MockUserAPIService) GenerateUserAPI(path string, apiSpecPath string, language string) error {
+func (service *MockUserAPIService) GenerateUserAPI(path string, apiDefinitionPath string, language string, projectName string) error {
 	return nil
 }
