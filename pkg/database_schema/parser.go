@@ -72,7 +72,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 		if relation[2] == "|" {
 			leftRelationMany = false
 		}
-		if relation[2] == "|" {
+		if relation[3] == "|" {
 			rightRelationMany = false
 		}
 		leftTableIndex := findEntityIndex(leftTableName, &data)
@@ -89,18 +89,18 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 			continue
 		}
 		leftRelation := Relation{
-			Entity: rightTable,
-			Column: nil,
+			Entity:           rightTable,
+			Column:           nil,
+			MultipleEntities: false,
 		}
-		multipleEntities := false
-		if rightColumnIndex > -1 {
-			leftRelation.Column = rightTable.Columns[rightColumnIndex]
+		if leftColumnIndex > -1 {
+			leftRelation.Column = leftTable.Columns[leftColumnIndex]
 			leftRelation.RelationType = "belongsTo"
 		} else {
-			leftRelation.Column = leftTable.Columns[leftColumnIndex]
+			leftRelation.Column = rightTable.Columns[rightColumnIndex]
 			if rightRelationMany {
 				leftRelation.RelationType = "hasMany"
-				multipleEntities = true
+				leftRelation.MultipleEntities = true
 			} else {
 				leftRelation.RelationType = "hasOne"
 			}
@@ -108,15 +108,16 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 		rightRelation := Relation{
 			Entity:           leftTable,
 			Column:           nil,
-			MultipleEntities: multipleEntities,
+			MultipleEntities: false,
 		}
-		if leftColumnIndex > -1 {
-			rightRelation.Column = leftTable.Columns[leftColumnIndex]
+		if rightColumnIndex > -1 {
+			rightRelation.Column = rightTable.Columns[rightColumnIndex]
 			rightRelation.RelationType = "belongsTo"
 		} else {
-			rightRelation.Column = rightTable.Columns[rightColumnIndex]
+			rightRelation.Column = leftTable.Columns[leftColumnIndex]
 			if leftRelationMany {
 				rightRelation.RelationType = "hasMany"
+				leftRelation.MultipleEntities = true
 			} else {
 				rightRelation.RelationType = "hasOne"
 			}
