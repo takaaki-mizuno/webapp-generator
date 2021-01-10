@@ -1,13 +1,15 @@
 package generators
 
 import (
+	"fmt"
 	"github.com/jinzhu/inflection"
+	"github.com/omiselabs/opn-generator/pkg/database_schema"
 	"github.com/omiselabs/opn-generator/pkg/open_api_spec"
 	"github.com/omiselabs/opn-generator/pkg/template"
 	"github.com/stoewer/go-strcase"
-	"log"
 	"os"
 	"strings"
+	"time"
 )
 
 // GitServiceInterface ...
@@ -20,6 +22,15 @@ func (generator *GolangGenerator) GenerateRequestInformation(api *open_api_spec.
 		return err
 	}
 	err = generateRequestRelatedFiles(api, path)
+	return err
+}
+
+func (generator *GolangGenerator) GenerateEntityInformation(schema *database_schema.Schema, path string) error {
+	err := buildEntityLanguageSpecificInfo(schema)
+	if err != nil {
+		return err
+	}
+	err = generateModelRelatedFiles(schema, path)
 	return err
 }
 
@@ -89,14 +100,14 @@ func buildPathPresentation(request *open_api_spec.Request) (string, error) {
 }
 
 func generateRequestRelatedFiles(api *open_api_spec.API, path string) error {
-	err := generateHandlerAndTests(api, path)
+	err := generateHandlersAndTests(api, path)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func generateHandlerAndTests(api *open_api_spec.API, path string) error {
+func generateHandlersAndTests(api *open_api_spec.API, path string) error {
 	for _, request := range api.Requests {
 		err := template.Generate(
 			"api",
@@ -106,7 +117,6 @@ func generateHandlerAndTests(api *open_api_spec.API, path string) error {
 			request,
 		)
 		if err != nil {
-			log.Fatal(err)
 			return err
 		}
 		err = template.Generate(
@@ -120,5 +130,177 @@ func generateHandlerAndTests(api *open_api_spec.API, path string) error {
 			return err
 		}
 	}
+	return nil
+}
+
+func buildEntityLanguageSpecificInfo(schema *database_schema.Schema) error {
+	schema.PackageName = "github.com/omiselabs/" + schema.ProjectName
+	for index, entity := range schema.Entities {
+		schema.Entities[index].ObjectName = buildModelObjectName(entity)
+		schema.Entities[index].PackageName = schema.PackageName
+		for columnIndex, column := range schema.Entities[index].Columns {
+			schema.Entities[index].Columns[columnIndex].ObjectName = buildColumnObjectName(column)
+			schema.Entities[index].Columns[columnIndex].ObjectType = buildColumnObjectType(column)
+		}
+		for relationIndex, relation := range schema.Entities[index].Relations {
+			schema.Entities[index].Relations[relationIndex].ObjectName = buildRelationObjectName(relation)
+		}
+	}
+	return nil
+}
+
+func buildModelObjectName(entity *database_schema.Entity) string {
+	return strcase.UpperCamelCase(inflection.Singular(entity.Name))
+}
+
+func buildColumnObjectName(column *database_schema.Column) string {
+	name := strcase.UpperCamelCase(column.Name)
+	if strings.HasSuffix(name, "Id") {
+		name = name[:len(name)-1] + "D"
+	}
+	return name
+}
+
+func buildColumnObjectType(column *database_schema.Column) string {
+	dataType := strings.ToLower(column.DataType)
+	if strings.HasPrefix(dataType, "decimal") {
+		return "decimal.Decimal"
+	}
+	switch dataType {
+	case "text":
+		return "string"
+	case "int":
+		return "int32"
+	case "bigserial":
+		return "int64"
+	case "bigint":
+		return "int64"
+	case "timestamp":
+		return "time.Time"
+	case "boolean":
+		return "bool"
+	case "jsonb":
+		return "postgres.Jsonb"
+	}
+
+	return "string"
+}
+
+func buildRelationObjectName(relation *database_schema.Relation) string {
+	if relation.MultipleEntities {
+		return strcase.UpperCamelCase(relation.Entity.Name)
+	} else {
+		return strcase.UpperCamelCase(inflection.Singular(relation.Entity.Name))
+	}
+}
+
+func generateModelRelatedFiles(schema *database_schema.Schema, path string) error {
+	err := generateModelsAndTests(schema, path)
+	if err != nil {
+		return err
+	}
+	err = generateRepositoriesAndTests(schema, path)
+	if err != nil {
+		return err
+	}
+	err = generateMigrations(schema, path)
+	if err != nil {
+		return err
+	}
+	return err
+}
+
+func generateModelsAndTests(schema *database_schema.Schema, path string) error {
+	for _, entity := range schema.Entities {
+		err := template.Generate(
+			"database",
+			"model.tmpl",
+			path,
+			strings.Join([]string{"internal", "models", inflection.Singular(entity.Name) + ".go"}, string(os.PathSeparator)),
+			entity,
+		)
+		if err != nil {
+			return err
+		}
+		err = template.Generate(
+			"database",
+			"model_test.tmpl",
+			path,
+			strings.Join([]string{"internal", "models", inflection.Singular(entity.Name) + "_test.go"}, string(os.PathSeparator)),
+			entity,
+		)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func generateRepositoriesAndTests(schema *database_schema.Schema, path string) error {
+	for _, entity := range schema.Entities {
+		err := template.Generate(
+			"database",
+			"repository.tmpl",
+			path,
+			strings.Join([]string{"internal", "repositories", inflection.Singular(entity.Name) + ".go"}, string(os.PathSeparator)),
+			entity,
+		)
+		if err != nil {
+			return err
+		}
+		err = template.Generate(
+			"database",
+			"repository_test.tmpl",
+			path,
+			strings.Join([]string{"internal", "repositories", inflection.Singular(entity.Name) + "_test.go"}, string(os.PathSeparator)),
+			entity,
+		)
+		if err != nil {
+			return err
+		}
+		err = template.Generate(
+			"database",
+			"repository_mock.tmpl",
+			path,
+			strings.Join([]string{"internal", "repositories", inflection.Singular(entity.Name) + "_mock.go"}, string(os.PathSeparator)),
+			entity,
+		)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func generateMigrations(schema *database_schema.Schema, path string) error {
+	currentTime := time.Now()
+	prefix := currentTime.Format("20060102150405")
+
+	for index, entity := range schema.Entities {
+		filename := fmt.Sprintf("%s_%02d_create_%s", prefix, index, entity.Name)
+		err := template.Generate(
+			"database",
+			"migration_up.tmpl",
+			path,
+			strings.Join([]string{"database", "migrations", filename + ".up.sql"}, string(os.PathSeparator)),
+			entity,
+		)
+		if err != nil {
+			return err
+		}
+		err = template.Generate(
+			"database",
+			"migration_down.tmpl",
+			path,
+			strings.Join([]string{"database", "migrations", filename + ".down.sql"}, string(os.PathSeparator)),
+			entity,
+		)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

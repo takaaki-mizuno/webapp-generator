@@ -2,6 +2,8 @@ package services
 
 import (
 	"github.com/omiselabs/opn-generator/config"
+	"github.com/omiselabs/opn-generator/internal/generators"
+	"github.com/omiselabs/opn-generator/pkg/database_schema"
 )
 
 // DatabaseServiceInterface ...
@@ -15,7 +17,18 @@ type DatabaseService struct {
 	config *config.Config
 }
 
-func (service *DatabaseService) GenerateDatabase(path string, apiDefinitionPath string, language string, projectName string) error {
+func (service *DatabaseService) GenerateDatabase(path string, databaseDefinitionPath string, language string, projectName string) error {
+	schema, err := database_schema.Parse(databaseDefinitionPath, projectName)
+	if err != nil {
+		return err
+	}
+	generator := generators.NewGenerator(language)
+	if generator != nil {
+		err = generator.GenerateEntityInformation(schema, path)
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 

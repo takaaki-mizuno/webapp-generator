@@ -6,4 +6,6 @@ type Column struct {
 	Primary      bool
 	DefaultValue string
 	Nullable     bool
+	ObjectName   string
+	ObjectType   string
 }

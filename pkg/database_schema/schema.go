@@ -1,5 +1,7 @@
 package database_schema
 
 type Schema struct {
-	Entities []*Entity
+	ProjectName string
+	PackageName string
+	Entities    []*Entity
 }
