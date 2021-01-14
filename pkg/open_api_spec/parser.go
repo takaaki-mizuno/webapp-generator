@@ -9,6 +9,7 @@ import (
 
 func Parse(filePath string, namespace string, projectName string) (*API, error) {
 	data := API{
+		FilePath:     filePath,
 		BasePath:     "/",
 		APINameSpace: namespace,
 		ProjectName:  projectName,

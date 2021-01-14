@@ -9,6 +9,7 @@ import (
 
 func Parse(filePath string, projectName string) (*Schema, error) {
 	data := Schema{
+		FilePath:    filePath,
 		ProjectName: projectName,
 	}
 	content, err := ioutil.ReadFile(filePath)
@@ -25,9 +26,10 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 	for _, entity := range entities {
 		name := entity[1]
 		entityObject := Entity{
-			Name:       name,
-			HasDecimal: false,
-			HasJson:    false,
+			Name:         name,
+			SingularName: inflection.Singular(name),
+			HasDecimal:   false,
+			HasJson:      false,
 		}
 		columns := strings.Split(strings.TrimSpace(entity[2]), "\n")
 		for _, column := range columns {
@@ -47,12 +49,17 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 					primary = true
 					dataType = "bigserial"
 				}
-				entityObject.Columns = append(entityObject.Columns, &Column{
+				columnObject := &Column{
 					Name:     name,
 					DataType: dataType,
 					Primary:  primary,
 					Nullable: nullable,
-				})
+				}
+				columnObject.APIReturnable = checkAPIReturnable(columnObject)
+				columnObject.APIUpdatable = checkAPIUpdatable(columnObject)
+				columnObject.APIType = getAPIType(columnObject)
+
+				entityObject.Columns = append(entityObject.Columns, columnObject)
 				if strings.HasPrefix(dataType, "decimal") || strings.HasPrefix(dataType, "numeric") {
 					entityObject.HasDecimal = true
 				}
@@ -150,4 +157,36 @@ func findRelationColumnIndex(name string, table *Entity) int {
 func removeComment(content string) string {
 	commentRegex := regexp.MustCompile(`(?ms)\/'.+?'\/`)
 	return commentRegex.ReplaceAllString(content, "")
+}
+
+func checkAPIReturnable(column *Column) bool {
+	return true
+}
+
+func checkAPIUpdatable(column *Column) bool {
+	if column.Name == "id" || column.Name == "created_at" || column.Name == "updated_at" {
+		return false
+	}
+	return true
+}
+
+func getAPIType(column *Column) string {
+	if strings.HasPrefix(column.DataType, "decimal") || strings.HasPrefix(column.DataType, "numeric") {
+		return "number"
+	}
+	switch column.DataType {
+	case "int":
+		return "integer"
+	case "bigint":
+		return "string"
+	case "text":
+		return "string"
+	case "boolean":
+		return "boolean"
+	case "jsonb":
+		return "string"
+	case "timestamp":
+		return "integer"
+	}
+	return "string"
 }

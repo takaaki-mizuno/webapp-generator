@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/inflection"
 	"github.com/omiselabs/opn-generator/pkg/database_schema"
+	"github.com/omiselabs/opn-generator/pkg/files"
 	"github.com/omiselabs/opn-generator/pkg/open_api_spec"
 	"github.com/omiselabs/opn-generator/pkg/template"
 	"github.com/stoewer/go-strcase"
@@ -17,16 +18,27 @@ type GolangGenerator struct {
 }
 
 func (generator *GolangGenerator) GenerateRequestInformation(api *open_api_spec.API, path string) error {
-	err := buildRequestLanguageSpecificInfo(api)
+	err := files.CopyFile(api.FilePath, strings.Join([]string{path, "docs", "user_api.yaml"}, string(os.PathSeparator)))
+	if err != nil {
+		return err
+	}
+	err = buildRequestLanguageSpecificInfo(api)
 	if err != nil {
 		return err
 	}
 	err = generateRequestRelatedFiles(api, path)
+	if err != nil {
+		return err
+	}
 	return err
 }
 
 func (generator *GolangGenerator) GenerateEntityInformation(schema *database_schema.Schema, path string) error {
-	err := buildEntityLanguageSpecificInfo(schema)
+	err := files.CopyFile(schema.FilePath, strings.Join([]string{path, "docs", "database.puml"}, string(os.PathSeparator)))
+	if err != nil {
+		return err
+	}
+	err = buildEntityLanguageSpecificInfo(schema)
 	if err != nil {
 		return err
 	}
@@ -207,6 +219,7 @@ func generateModelRelatedFiles(schema *database_schema.Schema, path string) erro
 	if err != nil {
 		return err
 	}
+	err = generateAdminAPISpec(schema, path)
 	return err
 }
 
@@ -303,4 +316,15 @@ func generateMigrations(schema *database_schema.Schema, path string) error {
 	}
 
 	return nil
+}
+
+func generateAdminAPISpec(schema *database_schema.Schema, path string) error {
+	err := template.Generate(
+		"database",
+		"admin_api_spec.tmpl",
+		path,
+		strings.Join([]string{"docs", "admin_api.yaml"}, string(os.PathSeparator)),
+		schema,
+	)
+	return err
 }
