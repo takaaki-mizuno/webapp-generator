@@ -50,6 +50,41 @@ func buildRequestLanguageSpecificInfo(api *open_api_spec.API) error {
 	api.PackageName = "github.com/omiselabs/" + api.ProjectName
 
 	api.RouteNameSpace, _ = buildRouteNameSpace(api)
+
+	for schemaIndex, schema := range api.Schemas {
+		api.Schemas[schemaIndex].ObjectName = strcase.UpperCamelCase(schema.Name)
+		for propertyIndex, property := range schema.Properties {
+			objectType := "String"
+			api.Schemas[schemaIndex].Properties[propertyIndex].ObjectName = strcase.UpperCamelCase(property.Name)
+			switch property.Type {
+			case "string":
+				objectType = "string"
+			case "integer":
+				objectType = "int64"
+			case "number":
+				objectType = "float64"
+			case "boolean":
+				objectType = "bool"
+			case "array":
+				arrayType := strcase.UpperCamelCase(property.ArrayItemName)
+				switch property.ArrayItemType {
+				case "string":
+					arrayType = "string"
+				case "integer":
+					arrayType = "int64"
+				case "number":
+					arrayType = "float64"
+				case "boolean":
+					arrayType = "bool"
+				}
+				objectType = "[]" + arrayType
+			case "object":
+				objectType = strcase.UpperCamelCase(property.Reference)
+			}
+			api.Schemas[schemaIndex].Properties[propertyIndex].ObjectType = objectType
+		}
+	}
+
 	for index, request := range api.Requests {
 		api.Requests[index].HandlerName, _ = buildHandlerName(request)
 		api.Requests[index].HandlerFileName = strcase.SnakeCase(api.Requests[index].HandlerName)
@@ -116,7 +151,8 @@ func generateRequestRelatedFiles(api *open_api_spec.API, path string) error {
 	if err != nil {
 		return err
 	}
-	return nil
+	err = generateRequestsAndResponses(api, path)
+	return err
 }
 
 func generateHandlersAndTests(api *open_api_spec.API, path string) error {
@@ -140,6 +176,45 @@ func generateHandlersAndTests(api *open_api_spec.API, path string) error {
 		)
 		if err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+func generateRequestsAndResponses(api *open_api_spec.API, path string) error {
+	for _, request := range api.Requests {
+		for _, response := range request.Responses {
+			responseSchemaName := response.Schema.Name
+			responseObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "responses", responseSchemaName + ".go"}, string(os.PathSeparator))
+			schema, ok := api.Schemas[responseSchemaName]
+			if files.Exists(responseObjectPath) == false && ok {
+				err := template.Generate(
+					"api",
+					"response.tmpl",
+					path,
+					responseObjectPath,
+					schema,
+				)
+				if err != nil {
+					return err
+				}
+			}
+		}
+		if request.RequestSchemaName != "" {
+			requestObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "requests", request.RequestSchemaName + ".go"}, string(os.PathSeparator))
+			schema, ok := api.Schemas[request.RequestSchemaName]
+			if files.Exists(requestObjectPath) == false && ok {
+				err := template.Generate(
+					"api",
+					"response.tmpl",
+					path,
+					requestObjectPath,
+					schema,
+				)
+				if err != nil {
+					return err
+				}
+			}
 		}
 	}
 	return nil

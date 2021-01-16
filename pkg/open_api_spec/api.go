@@ -8,4 +8,5 @@ type API struct {
 	BasePath       string
 	RouteNameSpace string
 	Requests       []*Request
+	Schemas        map[string]*Schema
 }

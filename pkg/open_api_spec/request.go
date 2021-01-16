@@ -12,7 +12,7 @@ type Request struct {
 	AddParamsForTest          string
 	ProcessRequest            string
 	BuildResponse             string
-	RequestObjectName         string
-	SuccessResponse           *Response
-	Errors                    []*Response
+	RequestSchemaName         string
+	Parameters                []*Parameter
+	Responses                 []*Response
 }
