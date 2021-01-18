@@ -1,4 +1,4 @@
-module github.com/omiselabs/opn-generator
+module github.com/opn-ooo/opn-generator
 
 go 1.15
 

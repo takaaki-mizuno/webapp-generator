@@ -1,9 +1,9 @@
 package services
 
 import (
-	"github.com/omiselabs/opn-generator/config"
-	"github.com/omiselabs/opn-generator/internal/generators"
-	"github.com/omiselabs/opn-generator/pkg/open_api_spec"
+	"github.com/opn-ooo/opn-generator/config"
+	"github.com/opn-ooo/opn-generator/internal/generators"
+	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
 )
 
 // UserAPIServiceInterface ...

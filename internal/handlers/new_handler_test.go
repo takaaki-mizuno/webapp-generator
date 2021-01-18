@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/omiselabs/opn-generator/config"
-	"github.com/omiselabs/opn-generator/internal/services"
+	"github.com/opn-ooo/opn-generator/config"
+	"github.com/opn-ooo/opn-generator/internal/services"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

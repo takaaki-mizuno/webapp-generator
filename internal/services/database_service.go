@@ -1,9 +1,9 @@
 package services
 
 import (
-	"github.com/omiselabs/opn-generator/config"
-	"github.com/omiselabs/opn-generator/internal/generators"
-	"github.com/omiselabs/opn-generator/pkg/database_schema"
+	"github.com/opn-ooo/opn-generator/config"
+	"github.com/opn-ooo/opn-generator/internal/generators"
+	"github.com/opn-ooo/opn-generator/pkg/database_schema"
 )
 
 // DatabaseServiceInterface ...

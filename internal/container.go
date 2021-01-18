@@ -1,9 +1,9 @@
 package internal
 
 import (
-	"github.com/omiselabs/opn-generator/config"
-	"github.com/omiselabs/opn-generator/internal/handlers"
-	"github.com/omiselabs/opn-generator/internal/services"
+	"github.com/opn-ooo/opn-generator/config"
+	"github.com/opn-ooo/opn-generator/internal/handlers"
+	"github.com/opn-ooo/opn-generator/internal/services"
 	"go.uber.org/dig"
 )
 

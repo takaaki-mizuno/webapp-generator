@@ -16,8 +16,8 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/omiselabs/opn-generator/internal"
-	"github.com/omiselabs/opn-generator/internal/handlers"
+	"github.com/opn-ooo/opn-generator/internal"
+	"github.com/opn-ooo/opn-generator/internal/handlers"
 	"github.com/spf13/cobra"
 	"log"
 	"os"

@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/omiselabs/opn-generator/cmd"
+import "github.com/opn-ooo/opn-generator/cmd"
 
 func main() {
 	cmd.Execute()

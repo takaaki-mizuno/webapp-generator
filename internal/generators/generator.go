@@ -1,8 +1,8 @@
 package generators
 
 import (
-	"github.com/omiselabs/opn-generator/pkg/database_schema"
-	"github.com/omiselabs/opn-generator/pkg/open_api_spec"
+	"github.com/opn-ooo/opn-generator/pkg/database_schema"
+	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
 )
 
 // GitServiceInterface ...

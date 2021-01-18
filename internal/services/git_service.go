@@ -4,7 +4,7 @@ import (
 	"archive/zip"
 	"fmt"
 	"github.com/cavaliercoder/grab"
-	"github.com/omiselabs/opn-generator/config"
+	"github.com/opn-ooo/opn-generator/config"
 	"io"
 	"log"
 	"os"
