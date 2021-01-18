@@ -97,7 +97,7 @@ func replacePackageName(path string, packageName string) error {
 		if info.IsDir() {
 			return nil
 		}
-		if strings.HasSuffix(path, ".go") {
+		if strings.HasSuffix(path, ".go") || strings.HasSuffix(path, "go.mod") {
 			input, err := ioutil.ReadFile(path)
 			if err != nil {
 				return err
