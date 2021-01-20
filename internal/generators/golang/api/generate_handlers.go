@@ -13,7 +13,7 @@ func GenerateHandlers(api *open_api_spec.API, path string) error {
 			"api",
 			"handler.tmpl",
 			path,
-			strings.Join([]string{"internal", "http", api.APINameSpace, "handlers", request.HandlerFileName + ".go"}, string(os.PathSeparator)),
+			strings.Join([]string{"internal", "http", api.APINameSpace, "handlers", request.HandlerFileName + "_handler.go"}, string(os.PathSeparator)),
 			request,
 		)
 		if err != nil {
@@ -23,7 +23,7 @@ func GenerateHandlers(api *open_api_spec.API, path string) error {
 			"api",
 			"handler_test.tmpl",
 			path,
-			strings.Join([]string{"internal", "http", api.APINameSpace, "handlers", request.HandlerFileName + "_test.go"}, string(os.PathSeparator)),
+			strings.Join([]string{"internal", "http", api.APINameSpace, "handlers", request.HandlerFileName + "_handler_test.go"}, string(os.PathSeparator)),
 			request,
 		)
 		if err != nil {

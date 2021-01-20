@@ -2,6 +2,7 @@ package database_schema
 
 import (
 	"github.com/jinzhu/inflection"
+	"github.com/stoewer/go-strcase"
 	"io/ioutil"
 	"regexp"
 	"strings"
@@ -26,10 +27,9 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 	for _, entity := range entities {
 		name := entity[1]
 		entityObject := Entity{
-			Name:         name,
-			SingularName: inflection.Singular(name),
-			HasDecimal:   false,
-			HasJson:      false,
+			Name:       generateName(name),
+			HasDecimal: false,
+			HasJson:    false,
 		}
 		columns := strings.Split(strings.TrimSpace(entity[2]), "\n")
 		for _, column := range columns {
@@ -50,7 +50,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 					dataType = "bigserial"
 				}
 				columnObject := &Column{
-					Name:     name,
+					Name:     generateName(name),
 					DataType: dataType,
 					Primary:  primary,
 					Nullable: nullable,
@@ -137,7 +137,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 
 func findEntityIndex(name string, schema *Schema) int {
 	for index, entity := range schema.Entities {
-		if entity.Name == name {
+		if entity.Name.Original == name {
 			return index
 		}
 	}
@@ -147,7 +147,7 @@ func findEntityIndex(name string, schema *Schema) int {
 func findRelationColumnIndex(name string, table *Entity) int {
 	columnName := inflection.Singular(name) + "_id"
 	for index, column := range table.Columns {
-		if column.Name == columnName {
+		if column.Name.Original == columnName {
 			return index
 		}
 	}
@@ -164,7 +164,7 @@ func checkAPIReturnable(column *Column) bool {
 }
 
 func checkAPIUpdatable(column *Column) bool {
-	if column.Name == "id" || column.Name == "created_at" || column.Name == "updated_at" {
+	if column.Name.Original == "id" || column.Name.Original == "created_at" || column.Name.Original == "updated_at" {
 		return false
 	}
 	return true
@@ -189,4 +189,24 @@ func getAPIType(column *Column) string {
 		return "integer"
 	}
 	return "string"
+}
+
+func generateName(name string) Name {
+	singular := inflection.Singular(name)
+	plural := inflection.Plural(name)
+	return Name{
+		Original: name,
+		Singular: NameForm{
+			Camel: strcase.LowerCamelCase(singular),
+			Title: strcase.UpperCamelCase(singular),
+			Snake: strcase.SnakeCase(singular),
+			Kebab: strcase.KebabCase(singular),
+		},
+		Plural: NameForm{
+			Camel: strcase.LowerCamelCase(plural),
+			Title: strcase.UpperCamelCase(plural),
+			Snake: strcase.SnakeCase(plural),
+			Kebab: strcase.KebabCase(plural),
+		},
+	}
 }

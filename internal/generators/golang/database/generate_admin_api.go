@@ -8,12 +8,22 @@ import (
 )
 
 func GenerateAdminAPIHandlers(schema *database_schema.Schema, path string) error {
+	err := template.Generate(
+		"database",
+		"admin_api_handler.tmpl",
+		path,
+		strings.Join([]string{"internal", "http", "admin", "handlers", "handler.go"}, string(os.PathSeparator)),
+		schema,
+	)
+	if err != nil {
+		return err
+	}
 	for _, entity := range schema.Entities {
-		err := template.Generate(
+		err = template.Generate(
 			"database",
 			"admin_api_entity_handler.tmpl",
 			path,
-			strings.Join([]string{"internal", "http", "admin", "handlers", entity.Name + "_handlers.go"}, string(os.PathSeparator)),
+			strings.Join([]string{"internal", "http", "admin", "handlers", entity.Name.Singular.Snake + "_handler.go"}, string(os.PathSeparator)),
 			entity,
 		)
 		if err != nil {
@@ -30,7 +40,7 @@ func GenerateAdminAPIRequests(schema *database_schema.Schema, path string) error
 			"database",
 			"admin_api_update_request.tmpl",
 			path,
-			strings.Join([]string{"internal", "http", "admin", "requests", entity.SingularName + "_update.go"}, string(os.PathSeparator)),
+			strings.Join([]string{"internal", "http", "admin", "requests", entity.Name.Singular.Snake + "_update.go"}, string(os.PathSeparator)),
 			entity,
 		)
 		if err != nil {
@@ -47,7 +57,7 @@ func GenerateAdminAPIResponse(schema *database_schema.Schema, path string) error
 			"database",
 			"admin_api_list_response.tmpl",
 			path,
-			strings.Join([]string{"internal", "http", "admin", "responses", entity.Name + ".go"}, string(os.PathSeparator)),
+			strings.Join([]string{"internal", "http", "admin", "responses", entity.Name.Plural.Snake + ".go"}, string(os.PathSeparator)),
 			entity,
 		)
 		if err != nil {
@@ -57,7 +67,7 @@ func GenerateAdminAPIResponse(schema *database_schema.Schema, path string) error
 			"database",
 			"admin_api_single_response.tmpl",
 			path,
-			strings.Join([]string{"internal", "http", "admin", "responses", entity.SingularName + ".go"}, string(os.PathSeparator)),
+			strings.Join([]string{"internal", "http", "admin", "responses", entity.Name.Singular.Snake + ".go"}, string(os.PathSeparator)),
 			entity,
 		)
 		if err != nil {

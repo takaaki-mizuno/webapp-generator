@@ -1,7 +1,6 @@
 package database
 
 import (
-	"github.com/jinzhu/inflection"
 	"github.com/opn-ooo/opn-generator/pkg/database_schema"
 	"github.com/opn-ooo/opn-generator/pkg/template"
 	"os"
@@ -14,7 +13,7 @@ func GenerateModels(schema *database_schema.Schema, path string) error {
 			"database",
 			"model.tmpl",
 			path,
-			strings.Join([]string{"internal", "models", inflection.Singular(entity.Name) + ".go"}, string(os.PathSeparator)),
+			strings.Join([]string{"internal", "models", entity.Name.Singular.Snake + ".go"}, string(os.PathSeparator)),
 			entity,
 		)
 		if err != nil {
@@ -24,7 +23,7 @@ func GenerateModels(schema *database_schema.Schema, path string) error {
 			"database",
 			"model_test.tmpl",
 			path,
-			strings.Join([]string{"internal", "models", inflection.Singular(entity.Name) + "_test.go"}, string(os.PathSeparator)),
+			strings.Join([]string{"internal", "models", entity.Name.Singular.Snake + "_test.go"}, string(os.PathSeparator)),
 			entity,
 		)
 		if err != nil {

@@ -14,7 +14,7 @@ func GenerateMigrations(schema *database_schema.Schema, path string) error {
 	prefix := currentTime.Format("200601021504")
 
 	for index, entity := range schema.Entities {
-		filename := fmt.Sprintf("%s%02d_create_%s", prefix, index, entity.Name)
+		filename := fmt.Sprintf("%s%02d_create_%s", prefix, index, entity.Name.Plural.Snake)
 		err := template.Generate(
 			"database",
 			"migration_up.tmpl",
