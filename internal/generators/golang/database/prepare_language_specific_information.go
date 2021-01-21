@@ -50,7 +50,7 @@ func buildColumnObjectType(column *database_schema.Column) string {
 	case "boolean":
 		return "bool"
 	case "jsonb":
-		return "postgres.Jsonb"
+		return "datatypes.JSON"
 	}
 
 	return "string"
@@ -59,7 +59,7 @@ func buildColumnObjectType(column *database_schema.Column) string {
 func buildColumnAPIObjectType(column *database_schema.Column) string {
 	dataType := strings.ToLower(column.DataType)
 	if strings.HasPrefix(dataType, "decimal") {
-		return "decimal.Decimal"
+		return "string"
 	}
 	switch dataType {
 	case "text":

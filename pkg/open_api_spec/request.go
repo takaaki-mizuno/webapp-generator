@@ -10,8 +10,6 @@ type Request struct {
 	HandlerFileName           string
 	Description               string
 	AddParamsForTest          string
-	ProcessRequest            string
-	BuildResponse             string
 	RequestSchemaName         string
 	Parameters                []*Parameter
 	Responses                 []*Response

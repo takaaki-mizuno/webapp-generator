@@ -106,3 +106,15 @@ func buildPathPresentation(request *open_api_spec.Request) (string, error) {
 
 	return strings.Join(result, "/"), nil
 }
+
+func buildHandlerParam(api *open_api_spec.API, request *open_api_spec.Request) string {
+data:
+	for _, parameter := range request.Parameters {
+		parameter.Name
+	}
+	if request.RequestSchemaName != "" {
+
+	}
+
+	return ""
+}

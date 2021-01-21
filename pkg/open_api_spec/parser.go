@@ -55,9 +55,14 @@ func Parse(filePath string, namespace string, projectName string) (*API, error) 
 				if responseSchema != nil {
 					schema, ok := data.Schemas[responseSchema.Schema.Value.Title]
 					if ok {
+						success := false
+						if strings.HasPrefix(statusCode, "2") {
+							success = true
+						}
 						request.Responses = append(request.Responses, &Response{
 							StatusCode: statusCode,
 							Schema:     schema,
+							Success:    success,
 						})
 					}
 				}

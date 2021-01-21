@@ -1,9 +1,11 @@
 package generators
 
 import (
+	"fmt"
 	apiGenerator "github.com/opn-ooo/opn-generator/internal/generators/golang/api"
 	databaseGenerator "github.com/opn-ooo/opn-generator/internal/generators/golang/database"
 	"io/ioutil"
+	"os/exec"
 	"path/filepath"
 
 	"github.com/opn-ooo/opn-generator/pkg/database_schema"
@@ -111,5 +113,11 @@ func replacePackageName(path string, packageName string) error {
 		}
 		return nil
 	})
+	return err
+}
+
+func formatCode(path string) error {
+	fmt.Println(path)
+	err := exec.Command("go", "fmt", path+"/...").Run()
 	return err
 }
