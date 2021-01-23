@@ -7,6 +7,18 @@ import (
 	"strings"
 )
 
+func GenerateAdminAPIRoutes(schema *database_schema.Schema, path string) error {
+	err := template.Replace(
+		"database",
+		"route",
+		"route.tmpl",
+		path,
+		strings.Join([]string{"cmd", "admin", "main.go"}, string(os.PathSeparator)),
+		schema,
+	)
+	return err
+}
+
 func GenerateAdminAPIHandlers(schema *database_schema.Schema, path string) error {
 	err := template.Generate(
 		"database",

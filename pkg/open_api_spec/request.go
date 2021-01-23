@@ -3,6 +3,7 @@ package open_api_spec
 type Request struct {
 	Path                      string
 	PackageName               string
+	RouteNameSpace            string
 	PathFrameworkPresentation string
 	Method                    string
 	MethodCamel               string
@@ -10,7 +11,7 @@ type Request struct {
 	HandlerFileName           string
 	Description               string
 	AddParamsForTest          string
-	RequestSchemaName         string
+	RequestSchemaName         Name
 	Parameters                []*Parameter
 	Responses                 []*Response
 }

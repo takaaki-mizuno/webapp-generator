@@ -10,13 +10,13 @@ import (
 
 func GenerateRequests(api *open_api_spec.API, path string) error {
 	for _, request := range api.Requests {
-		if request.RequestSchemaName != "" {
-			requestObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "requests", request.RequestSchemaName + ".go"}, string(os.PathSeparator))
-			schema, ok := api.Schemas[request.RequestSchemaName]
+		if request.RequestSchemaName.Original != "" {
+			requestObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "requests", request.RequestSchemaName.Original + ".go"}, string(os.PathSeparator))
+			schema, ok := api.Schemas[request.RequestSchemaName.Original]
 			if files.Exists(requestObjectPath) == false && ok {
 				err := template.Generate(
 					"api",
-					"response.tmpl",
+					"request.tmpl",
 					path,
 					requestObjectPath,
 					schema,

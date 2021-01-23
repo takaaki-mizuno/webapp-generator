@@ -79,6 +79,10 @@ func generateModelRelatedFiles(schema *database_schema.Schema, path string) erro
 	if err != nil {
 		return err
 	}
+	err = databaseGenerator.GenerateAdminAPIRoutes(schema, path)
+	if err != nil {
+		return err
+	}
 	err = databaseGenerator.GenerateAdminAPIHandlers(schema, path)
 	if err != nil {
 		return err
