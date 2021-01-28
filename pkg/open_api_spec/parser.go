@@ -59,13 +59,22 @@ func Parse(filePath string, namespace string, projectName string) (*API, error) 
 			if operation.RequestBody != nil {
 				requestSchema := operation.RequestBody.Value.Content.Get("application/json")
 				if requestSchema != nil {
-					request.RequestSchemaName = generateName(requestSchema.Schema.Value.Title)
+					if requestSchema.Schema.Ref != "" {
+						requestName := getSchemaNameFromSchema(requestSchema.Schema.Ref, requestSchema.Schema.Value)
+						request.RequestSchemaName = generateName(requestName)
+					} else {
+						requestSchemaName := strcase.SnakeCase(path) + "_" + strings.ToLower(method) + "_request"
+						data.Schemas[requestSchemaName] = generateSchemaObject(requestSchemaName, requestSchema.Schema.Value)
+						request.RequestSchemaName = generateName(requestSchemaName)
+					}
 				}
 			}
 			for statusCode, schemaObject := range operation.Responses {
 				responseSchema := schemaObject.Value.Content.Get("application/json")
+
 				if responseSchema != nil {
-					schema, ok := data.Schemas[responseSchema.Schema.Value.Title]
+					responseName := getSchemaNameFromSchema(responseSchema.Schema.Ref, responseSchema.Schema.Value)
+					schema, ok := data.Schemas[responseName]
 					if ok {
 						success := false
 						if strings.HasPrefix(statusCode, "2") {
@@ -87,7 +96,7 @@ func Parse(filePath string, namespace string, projectName string) (*API, error) 
 }
 
 func parseComponents(components openapi3.Components, api *API) {
-	for _, schemaRef := range components.Schemas {
+	for name, schemaRef := range components.Schemas {
 		specSchema := schemaRef.Value
 		if specSchema == nil {
 			continue
@@ -95,47 +104,53 @@ func parseComponents(components openapi3.Components, api *API) {
 		if specSchema.Type != "object" {
 			continue
 		}
-		schemaObject := Schema{
-			Name:        specSchema.Title,
-			Description: specSchema.Description,
-		}
-		requiredMap := map[string]bool{}
-		for _, requiredColumn := range specSchema.Required {
-			requiredMap[requiredColumn] = true
-		}
-		for name, property := range specSchema.Properties {
-			_, required := requiredMap[name]
-			switch property.Value.Type {
-			case "array":
-				item := property.Value.Items.Value
-				schemaObject.Properties = append(schemaObject.Properties, &Property{
-					Name:          name,
-					Type:          property.Value.Type,
-					Description:   property.Value.Description,
-					ArrayItemType: item.Type,
-					ArrayItemName: item.Title,
-					Required:      required,
-				})
-			case "object":
-				schemaObject.Properties = append(schemaObject.Properties, &Property{
-					Name:        name,
-					Type:        property.Value.Type,
-					Description: property.Value.Description,
-					Reference:   property.Value.Title,
-					Required:    required,
-				})
-			default:
-				schemaObject.Properties = append(schemaObject.Properties, &Property{
-					Name:        name,
-					Type:        property.Value.Type,
-					Description: property.Value.Description,
-					Required:    required,
-				})
-			}
-
-		}
-		api.Schemas[specSchema.Title] = &schemaObject
+		schemaName := getSchemaNameFromSchema(name, schemaRef.Value)
+		api.Schemas[schemaName] = generateSchemaObject(schemaName, schemaRef.Value)
 	}
+}
+
+func generateSchemaObject(name string, schema *openapi3.Schema) *Schema {
+	schemaObject := Schema{
+		Name:        name,
+		Description: schema.Description,
+	}
+	requiredMap := map[string]bool{}
+	for _, requiredColumn := range schema.Required {
+		requiredMap[requiredColumn] = true
+	}
+	for name, property := range schema.Properties {
+		_, required := requiredMap[name]
+		switch property.Value.Type {
+		case "array":
+			itemName := getSchemaNameFromSchema(property.Value.Items.Ref, property.Value.Items.Value)
+			item := property.Value.Items.Value
+			schemaObject.Properties = append(schemaObject.Properties, &Property{
+				Name:          name,
+				Type:          property.Value.Type,
+				Description:   property.Value.Description,
+				ArrayItemType: item.Type,
+				ArrayItemName: itemName,
+				Required:      required,
+			})
+		case "object":
+			propertyName := getSchemaNameFromSchema(property.Ref, property.Value)
+			schemaObject.Properties = append(schemaObject.Properties, &Property{
+				Name:        name,
+				Type:        property.Value.Type,
+				Description: property.Value.Description,
+				Reference:   propertyName,
+				Required:    required,
+			})
+		default:
+			schemaObject.Properties = append(schemaObject.Properties, &Property{
+				Name:        name,
+				Type:        property.Value.Type,
+				Description: property.Value.Description,
+				Required:    required,
+			})
+		}
+	}
+	return &schemaObject
 }
 
 func generateName(name string) Name {
@@ -162,4 +177,13 @@ func generateName(name string) Name {
 			Kebab: strcase.KebabCase(plural),
 		},
 	}
+}
+
+func getSchemaNameFromSchema(name string, schema *openapi3.Schema) string {
+	if schema.Title != "" {
+		return schema.Title
+	}
+	elements := strings.Split(name, "/")
+	schemaName := strcase.SnakeCase(elements[len(elements)-1])
+	return schemaName
 }
