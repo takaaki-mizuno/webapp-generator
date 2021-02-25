@@ -1,22 +1,23 @@
 package open_api_spec
 
 import (
+	"net/url"
+	"strings"
+
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/jinzhu/inflection"
 	"github.com/stoewer/go-strcase"
-	"net/url"
-	"strings"
 )
 
 func Parse(filePath string, namespace string, projectName string) (*API, error) {
-	rootNamespace := "v1"
+	defaultRouteNamespace := namespace
 	data := API{
 		FilePath:       filePath,
 		BasePath:       "/",
 		APINameSpace:   namespace,
 		ProjectName:    projectName,
 		Schemas:        map[string]*Schema{},
-		RouteNameSpace: rootNamespace,
+		RouteNameSpace: defaultRouteNamespace,
 	}
 	swagger, err := openapi3.NewSwaggerLoader().LoadSwaggerFromFile(filePath)
 	if err != nil {
@@ -24,11 +25,14 @@ func Parse(filePath string, namespace string, projectName string) (*API, error) 
 	}
 	if len(swagger.Servers) > 0 {
 		elements, err := url.Parse(swagger.Servers[0].URL)
-		if err == nil {
-			data.BasePath = elements.Path
+		if err != nil {
+			return nil, err
 		}
+		data.BasePath = elements.Path
 	}
 	parseComponents(swagger.Components, &data)
+
+	data.RouteNameSpace = buildRouteNameSpace(data.BasePath, defaultRouteNamespace)
 
 	for path, pathItem := range swagger.Paths {
 		for method, operation := range pathItem.Operations() {
@@ -37,7 +41,7 @@ func Parse(filePath string, namespace string, projectName string) (*API, error) 
 				Method:         strings.ToUpper(method),
 				MethodCamel:    strcase.UpperCamelCase(method),
 				Description:    operation.Description,
-				RouteNameSpace: rootNamespace,
+				RouteNameSpace: data.RouteNameSpace,
 			}
 			// Parameters
 			for _, parameterReference := range operation.Parameters {
@@ -93,6 +97,21 @@ func Parse(filePath string, namespace string, projectName string) (*API, error) 
 	}
 
 	return &data, nil
+}
+
+func buildRouteNameSpace(basePath string, defaultRouteNamespace string) string {
+	if basePath == "/" || basePath == "" {
+		return defaultRouteNamespace
+	}
+
+	elements := strings.Split(basePath, "/")
+	name := ""
+	for _, element := range elements {
+		if element != "" {
+			name = name + strcase.UpperCamelCase(element)
+		}
+	}
+	return strcase.LowerCamelCase(name)
 }
 
 func parseComponents(components openapi3.Components, api *API) {
