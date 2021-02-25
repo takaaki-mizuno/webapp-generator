@@ -68,6 +68,9 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 				columnObject.APIType = getAPIType(columnObject)
 
 				entityObject.Columns = append(entityObject.Columns, columnObject)
+				if name == "id" {
+					entityObject.PrimaryKey = columnObject
+				}
 				if strings.HasPrefix(dataType, "decimal") || strings.HasPrefix(dataType, "numeric") {
 					entityObject.HasDecimal = true
 				}
