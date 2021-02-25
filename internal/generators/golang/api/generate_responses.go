@@ -5,6 +5,7 @@ import (
 	"github.com/opn-ooo/opn-generator/pkg/files"
 	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
 	"github.com/opn-ooo/opn-generator/pkg/template"
+	"github.com/stoewer/go-strcase"
 	"os"
 	"strings"
 )
@@ -12,20 +13,9 @@ import (
 func GenerateResponses(api *open_api_spec.API, path string) error {
 	for _, request := range api.Requests {
 		for _, response := range request.Responses {
-			responseSchemaName := response.Schema.Name
-			responseObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "responses", responseSchemaName + ".go"}, string(os.PathSeparator))
-			schema, ok := api.Schemas[responseSchemaName]
-			if files.Exists(responseObjectPath) == false && ok {
-				err := template.Generate(
-					"api",
-					"response.tmpl",
-					path,
-					responseObjectPath,
-					schema,
-				)
-				if err != nil {
-					return err
-				}
+			err := generateResponseStruct(response.Schema.Name, api, path)
+			if err != nil {
+				return err
 			}
 		}
 	}
@@ -37,8 +27,9 @@ func generateResponseStruct(name string, api *open_api_spec.API, path string) er
 	if !ok {
 		return fmt.Errorf("response %s not found", name)
 	}
-	responseObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "responses", name + ".go"}, string(os.PathSeparator))
-	if files.Exists(responseObjectPath) {
+	fileName := strcase.SnakeCase(name)
+	responseObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "responses", fileName + ".go"}, string(os.PathSeparator))
+	if files.Exists(path + string(os.PathSeparator) + responseObjectPath) {
 		return nil
 	}
 

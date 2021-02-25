@@ -5,6 +5,7 @@ import (
 	"github.com/opn-ooo/opn-generator/pkg/files"
 	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
 	"github.com/opn-ooo/opn-generator/pkg/template"
+	"github.com/stoewer/go-strcase"
 	"os"
 	"strings"
 )
@@ -26,9 +27,10 @@ func generateRequestStruct(name string, api *open_api_spec.API, path string) err
 	if !ok {
 		return fmt.Errorf("request %s not found", name)
 	}
-	requestObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "requests", name + ".go"}, string(os.PathSeparator))
+	fileName := strcase.SnakeCase(name)
+	requestObjectPath := strings.Join([]string{"internal", "http", api.APINameSpace, "requests", fileName + ".go"}, string(os.PathSeparator))
 
-	if files.Exists(requestObjectPath) {
+	if files.Exists(path + string(os.PathSeparator) + requestObjectPath) {
 		return nil
 	}
 

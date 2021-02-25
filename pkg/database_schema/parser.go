@@ -53,7 +53,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 						dataType = "bigserial"
 					} else {
 						defaultValue = "uuid_generate_v4()"
-						data.PrimaryKeyDataType = "text"
+						data.PrimaryKeyDataType = "string"
 					}
 				}
 				columnObject := &Column{
