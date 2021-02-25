@@ -71,6 +71,10 @@ func generateModelRelatedFiles(schema *database_schema.Schema, path string) erro
 	if err != nil {
 		return err
 	}
+	err = databaseGenerator.AddRepositoryToDIContainer(schema, path)
+	if err != nil {
+		return err
+	}
 	err = databaseGenerator.GenerateMigrations(schema, path)
 	if err != nil {
 		return err

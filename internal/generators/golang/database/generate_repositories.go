@@ -43,3 +43,15 @@ func GenerateRepositories(schema *database_schema.Schema, path string) error {
 
 	return nil
 }
+
+func AddRepositoryToDIContainer(schema *database_schema.Schema, path string) error {
+	err := template.Replace(
+		"database",
+		"repository",
+		"repository_di_container.tmpl",
+		path,
+		strings.Join([]string{"cmd", "container.go"}, string(os.PathSeparator)),
+		schema,
+	)
+	return err
+}
