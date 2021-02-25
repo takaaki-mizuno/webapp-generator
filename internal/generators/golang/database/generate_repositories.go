@@ -8,6 +8,16 @@ import (
 )
 
 func GenerateRepositories(schema *database_schema.Schema, path string) error {
+	err := template.Generate(
+		"database",
+		"base_repository.tmpl",
+		path,
+		strings.Join([]string{"internal", "repositories", "base_repository.go"}, string(os.PathSeparator)),
+		schema,
+	)
+	if err != nil {
+		return err
+	}
 	for _, entity := range schema.Entities {
 		err := template.Generate(
 			"database",

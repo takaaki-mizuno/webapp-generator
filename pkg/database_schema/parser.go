@@ -10,8 +10,9 @@ import (
 
 func Parse(filePath string, projectName string) (*Schema, error) {
 	data := Schema{
-		FilePath:    filePath,
-		ProjectName: projectName,
+		FilePath:           filePath,
+		ProjectName:        projectName,
+		PrimaryKeyDataType: "int64",
 	}
 	content, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -39,6 +40,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 				nullable := false
 				name = strings.ToLower(foundColumns[0][2])
 				dataType := strings.ToLower(foundColumns[0][3])
+				defaultValue := ""
 				if name == "created_at" || name == "updated_at" {
 					continue
 				}
@@ -47,13 +49,19 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 				}
 				if name == "id" {
 					primary = true
-					dataType = "bigserial"
+					if dataType != "uuid" {
+						dataType = "bigserial"
+					} else {
+						defaultValue = "uuid_generate_v4()"
+						data.PrimaryKeyDataType = "text"
+					}
 				}
 				columnObject := &Column{
-					Name:     generateName(name),
-					DataType: dataType,
-					Primary:  primary,
-					Nullable: nullable,
+					Name:         generateName(name),
+					DataType:     dataType,
+					Primary:      primary,
+					Nullable:     nullable,
+					DefaultValue: defaultValue,
 				}
 				columnObject.APIReturnable = checkAPIReturnable(columnObject)
 				columnObject.APIUpdatable = checkAPIUpdatable(columnObject)
