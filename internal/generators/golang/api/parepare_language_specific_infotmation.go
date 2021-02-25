@@ -1,16 +1,15 @@
 package api
 
 import (
+	"strings"
+
 	"github.com/jinzhu/inflection"
 	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
 	"github.com/stoewer/go-strcase"
-	"strings"
 )
 
 func BuildLanguageSpecificInfo(api *open_api_spec.API) error {
 	api.PackageName = "github.com/opn-ooo/" + api.ProjectName
-
-	api.RouteNameSpace, _ = buildRouteNameSpace(api)
 
 	for schemaIndex, schema := range api.Schemas {
 		api.Schemas[schemaIndex].ObjectName = strcase.UpperCamelCase(schema.Name)
@@ -54,20 +53,6 @@ func BuildLanguageSpecificInfo(api *open_api_spec.API) error {
 	}
 
 	return nil
-}
-
-func buildRouteNameSpace(api *open_api_spec.API) (string, error) {
-	if api.BasePath == "/" {
-		return api.APINameSpace, nil
-	}
-	elements := strings.Split(api.BasePath, "/")
-	name := ""
-	for _, element := range elements {
-		if element != "" {
-			name = name + strcase.UpperCamelCase(element)
-		}
-	}
-	return strcase.LowerCamelCase(name), nil
 }
 
 func buildHandlerName(request *open_api_spec.Request) (string, error) {

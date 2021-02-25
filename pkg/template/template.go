@@ -7,8 +7,9 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+
+	htmlTemplate "text/template"
 )
-import htmlTemplate "text/template"
 
 func Generate(templateType string, templateFileName string, projectBasePath string, destinationFilePath string, data interface{}) error {
 	templateFilePath := getTemplatePath(templateType, templateFileName, projectBasePath)
