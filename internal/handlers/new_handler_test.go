@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	"github.com/opn-ooo/opn-generator/config"
-	"github.com/opn-ooo/opn-generator/internal/services"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/opn-ooo/opn-generator/config"
+	"github.com/opn-ooo/opn-generator/internal/services"
 )
 
 func TestHandler_NewHandler(t *testing.T) {
@@ -13,8 +14,9 @@ func TestHandler_NewHandler(t *testing.T) {
 		configInstance, _ := config.LoadConfig()
 		gitService := services.MockGitService{}
 		userAPIService := services.MockUserAPIService{}
-		handler := NewNewHandler(configInstance, &gitService, &userAPIService)
-		err := handler.Execute("test", ".", "")
+		databaseService := services.MockDatabaseService{}
+		handler := NewNewHandler(configInstance, &gitService, &userAPIService, &databaseService)
+		err := handler.Execute("test", ".", "", "")
 		assert.Nil(t, err)
 	})
 
@@ -22,8 +24,9 @@ func TestHandler_NewHandler(t *testing.T) {
 		configInstance, _ := config.LoadConfig()
 		gitService := services.MockGitService{}
 		userAPIService := services.MockUserAPIService{}
-		handler := NewNewHandler(configInstance, &gitService, &userAPIService)
-		err := handler.Execute("test", ".", "test.yaml")
+		databaseService := services.MockDatabaseService{}
+		handler := NewNewHandler(configInstance, &gitService, &userAPIService, &databaseService)
+		err := handler.Execute("test", ".", "test.yaml", "")
 		assert.Nil(t, err)
 	})
 }
