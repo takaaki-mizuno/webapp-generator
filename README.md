@@ -3,20 +3,14 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-
   <h3 align="center">OPN Generator</h3>
-
   <p align="center">
     OPN Generator is a tool to build a new application by providing API specification and Database schema.  
-    <br />
-    <a href="https://github.com/opn-ooo/twallet-mini-app-ev-charge-spec"><strong>Explore the specs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/opn-ooo/opn-generator/issues/new">Report Bug</a>
   </p>
 </p>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -69,12 +63,12 @@
  ┃ ┣ 📂open_api_spec
  ┃ ┣ 📂template
  ```
-
+This tool is developed by following [Standard Go project layout](https://github.com/golang-standards/project-layout) 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-You can use MacOS, Linux or Windows as operating system. To get a local copy up and running follow these simple steps.
+You can use MacOS, Linux or Windows as operating system to use this tool. To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 1. Make sure [Git](https://git-scm.com/downloads) is installed. To verify that you've installed Git by opening a command prompt and typing the following command that  prints the installed version of Git.
@@ -90,11 +84,11 @@ You can use MacOS, Linux or Windows as operating system. To get a local copy up 
 
 ### Installation
 
-1. Clone the repo
+1. Clone - Go to a folder where you would like to clone this tool and run following.
    ```sh
    $ git clone https://github.com/opn-ooo/opn-generator.git
    ```
-2. Build 
+2. Build - Go to the opn-generator directory and run following. 
    ```sh
    $ go build
    ```
@@ -102,15 +96,15 @@ You can use MacOS, Linux or Windows as operating system. To get a local copy up 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-To use OPN Generator, please use the following command that will build a new application
+To use OPN Generator after the installation succeed,  please use the following command that will build a new application
    ```sh
    $ ./opn-generator new [projectName] --database [/path/to/plantUMLFile] --api [/path/to/apiSpecYAMLFile]
    ```
 
-   Here, 
-   [projectName] is name of the project
-   --database is the file path of database plantuml file, 
-   --api is the file path of API specification file.
+   Here, \
+   [projectName] is name of the project \
+   --database is the file path of database plantuml file, \
+   --api is the file path of API specification file. 
     
 
 _To check sample files of API specification and Database schema, have a look over [here](sample/)_
@@ -135,7 +129,7 @@ See the [open issues](https://github.com/opn-ooo/opn-generator/issues?q=is%3Aope
 
 * [Dig](https://pkg.go.dev/go.uber.org/dig)
 * [Cobra](https://cobra.dev)
-* [Testify](https://github.com/stretchr/testify)
-And many more.
+* [Testify](https://github.com/stretchr/testify) \
+And many more
 
 
