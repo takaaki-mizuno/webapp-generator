@@ -1,13 +1,15 @@
 package database
 
 import (
-	"github.com/opn-ooo/opn-generator/pkg/database_schema"
-	"github.com/opn-ooo/opn-generator/pkg/template"
 	"os"
 	"strings"
+
+	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/opn-ooo/opn-generator/pkg/template"
 )
 
-func GenerateRepositories(schema *database_schema.Schema, path string) error {
+// GenerateRepositories ...
+func GenerateRepositories(schema *databaseschema.Schema, path string) error {
 	err := template.Generate(
 		"database",
 		"base_repository.tmpl",
@@ -54,7 +56,8 @@ func GenerateRepositories(schema *database_schema.Schema, path string) error {
 	return nil
 }
 
-func AddRepositoryToDIContainer(schema *database_schema.Schema, path string) error {
+// AddRepositoryToDIContainer ...
+func AddRepositoryToDIContainer(schema *databaseschema.Schema, path string) error {
 	err := template.Replace(
 		"database",
 		"repository",

@@ -3,13 +3,15 @@ package services
 import (
 	"archive/zip"
 	"fmt"
-	"github.com/cavaliercoder/grab"
-	"github.com/opn-ooo/opn-generator/config"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/cavaliercoder/grab"
+
+	"github.com/opn-ooo/opn-generator/config"
 )
 
 // GitServiceInterface ...
@@ -46,8 +48,8 @@ func (service *GitService) DownloadBoilerplate(path string, projectName string) 
 	return nil
 }
 
-func downloadFile(targetUrl string, directoryPath string) (string, error) {
-	response, err := grab.Get(directoryPath, targetUrl)
+func downloadFile(targetURL string, directoryPath string) (string, error) {
+	response, err := grab.Get(directoryPath, targetURL)
 	if err != nil {
 		log.Fatal(err)
 		return "", err

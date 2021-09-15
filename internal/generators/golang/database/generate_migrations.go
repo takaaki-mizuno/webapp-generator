@@ -2,14 +2,16 @@ package database
 
 import (
 	"fmt"
-	"github.com/opn-ooo/opn-generator/pkg/database_schema"
-	"github.com/opn-ooo/opn-generator/pkg/template"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/opn-ooo/opn-generator/pkg/template"
 )
 
-func GenerateMigrations(schema *database_schema.Schema, path string) error {
+// GenerateMigrations ...
+func GenerateMigrations(schema *databaseschema.Schema, path string) error {
 	currentTime := time.Now()
 	prefix := currentTime.Format("200601021504")
 

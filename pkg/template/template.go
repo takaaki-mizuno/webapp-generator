@@ -7,10 +7,10 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
-
 	htmlTemplate "text/template"
 )
 
+// Generate ...
 func Generate(templateType string, templateFileName string, projectBasePath string, destinationFilePath string, data interface{}) error {
 	templateFilePath := getTemplatePath(templateType, templateFileName, projectBasePath)
 
@@ -29,6 +29,7 @@ func Generate(templateType string, templateFileName string, projectBasePath stri
 	return nil
 }
 
+// Replace ...
 func Replace(templateType string, placeName string, templateFileName string, projectBasePath string, destinationFilePath string, data interface{}) error {
 	templateFilePath := getTemplatePath(templateType, templateFileName, projectBasePath)
 

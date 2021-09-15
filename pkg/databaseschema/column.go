@@ -1,5 +1,6 @@
-package database_schema
+package databaseschema
 
+// Column ...
 type Column struct {
 	Name          Name
 	ObjectName    string

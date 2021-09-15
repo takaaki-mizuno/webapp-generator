@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// CopyFile ...
 func CopyFile(sourcePath string, destinationPath string) error {
 	data, err := ioutil.ReadFile(sourcePath)
 	if err != nil {
@@ -14,6 +15,7 @@ func CopyFile(sourcePath string, destinationPath string) error {
 	return err
 }
 
+// Exists ...
 func Exists(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil

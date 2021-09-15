@@ -1,5 +1,6 @@
-package database_schema
+package databaseschema
 
+// Relation ...
 type Relation struct {
 	Entity           *Entity
 	Column           *Column

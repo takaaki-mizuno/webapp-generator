@@ -1,5 +1,6 @@
-package open_api_spec
+package openapispec
 
+// Name ...
 type Name struct {
 	Original string
 	Default  NameForm
@@ -7,6 +8,7 @@ type Name struct {
 	Plural   NameForm
 }
 
+// NameForm ...
 type NameForm struct {
 	Camel string
 	Title string
