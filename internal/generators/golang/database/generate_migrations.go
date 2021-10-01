@@ -6,15 +6,12 @@ import (
 	"github.com/opn-ooo/opn-generator/pkg/template"
 	"os"
 	"strings"
-	"time"
 )
 
 func GenerateMigrations(schema *database_schema.Schema, path string) error {
-	currentTime := time.Now()
-	prefix := currentTime.Format("200601021504")
 
 	for index, entity := range schema.Entities {
-		filename := fmt.Sprintf("%s%02d_create_%s", prefix, index, entity.Name.Plural.Snake)
+		filename := fmt.Sprintf("%06d_create_%s", index+2, entity.Name.Plural.Snake)
 		err := template.Generate(
 			"database",
 			"migration_up.tmpl",
