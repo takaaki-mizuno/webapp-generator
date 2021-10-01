@@ -1,5 +1,6 @@
-package open_api_spec
+package openapispec
 
+// Schema ... 
 type Schema struct {
 	Name        string
 	Description string

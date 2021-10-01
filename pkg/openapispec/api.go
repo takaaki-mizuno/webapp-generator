@@ -1,5 +1,6 @@
-package open_api_spec
+package openapispec
 
+// API ...
 type API struct {
 	FilePath       string
 	ProjectName    string

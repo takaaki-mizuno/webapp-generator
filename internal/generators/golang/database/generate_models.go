@@ -1,13 +1,15 @@
 package database
 
 import (
-	"github.com/opn-ooo/opn-generator/pkg/database_schema"
-	"github.com/opn-ooo/opn-generator/pkg/template"
 	"os"
 	"strings"
+
+	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/opn-ooo/opn-generator/pkg/template"
 )
 
-func GenerateModels(schema *database_schema.Schema, path string) error {
+// GenerateModels ...
+func GenerateModels(schema *databaseschema.Schema, path string) error {
 	for _, entity := range schema.Entities {
 		err := template.Generate(
 			"database",

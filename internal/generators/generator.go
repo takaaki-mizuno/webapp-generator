@@ -1,16 +1,17 @@
 package generators
 
 import (
-	"github.com/opn-ooo/opn-generator/pkg/database_schema"
-	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
+	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/opn-ooo/opn-generator/pkg/openapispec"
 )
 
-// GitServiceInterface ...
+// GeneratorInterface ...
 type GeneratorInterface interface {
-	GenerateRequestInformation(api *open_api_spec.API, path string) error
-	GenerateEntityInformation(schema *database_schema.Schema, path string) error
+	GenerateRequestInformation(api *openapispec.API, path string) error
+	GenerateEntityInformation(schema *databaseschema.Schema, path string) error
 }
 
+// NewGenerator ...
 func NewGenerator(language string) GeneratorInterface {
 	if language == "golang" {
 		return &GolangGenerator{}

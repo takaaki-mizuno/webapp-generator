@@ -7,12 +7,14 @@ import (
 	"github.com/jinzhu/configor"
 )
 
+// Config ...
 type Config struct {
 	Boilerplate struct {
 		URL string `default:"https://github.com/opn-ooo/go-boilerplate/archive/main.zip"`
 	}
 }
 
+// LoadConfig ...
 func LoadConfig() (*Config, error) {
 	var config Config
 

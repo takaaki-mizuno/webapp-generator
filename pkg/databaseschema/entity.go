@@ -1,5 +1,6 @@
-package database_schema
+package databaseschema
 
+// Entity ...
 type Entity struct {
 	Name        Name
 	Columns     []*Column

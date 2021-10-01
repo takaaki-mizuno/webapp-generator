@@ -1,3 +1,5 @@
+package cmd
+
 /*
 Copyright © 2021 NAME HERE <EMAIL ADDRESS>
 
@@ -13,14 +15,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package cmd
 
 import (
-	"github.com/opn-ooo/opn-generator/internal"
-	"github.com/opn-ooo/opn-generator/internal/handlers"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
+
+	"github.com/spf13/cobra"
+
+	"github.com/opn-ooo/opn-generator/internal"
+	"github.com/opn-ooo/opn-generator/internal/handlers"
 )
 
 // newCmd represents the new command
