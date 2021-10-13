@@ -1,38 +1,30 @@
 openapi: 3.0.0
 info:
-  title: EV充電ミニアプリサーバーAPI定義書
+  title: Test API
   version: '1.0'
   contact:
     name: OPN Co. Ltd.
-  description: EV充電ミニアプリサーバーAPI
+  description: Test API
 servers:
-  - url: 'https://miniapp-platform-server.twallet-jp.omiselabs.dev/v1/s2s/'
+  - url: 'https://test.dev'
 paths:
-  /notifications:
+  /customers:
     post:
-      summary: 決済結果Notification
-      description: 決済結果をTPay server CGI決済結果に送信する
+      summary: Customer
+      description: Store customer info
       tags:
-        - notifications
+        - customers
       parameters:
-        - $ref: '#/components/parameters/x-ev-charge-platform'
-        - $ref: '#/components/parameters/x-ev-charge-os-version'
-        - $ref: '#/components/parameters/x-ev-charge-device-name'
-        - $ref: '#/components/parameters/x-ev-charge-client-version'
-        - $ref: '#/components/parameters/x-ev-charge-country-code'
         - $ref: '#/components/parameters/x-opn-access-token'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostNotificationRequest'
+              $ref: '#/components/schemas/PostCustomerRequest'
             example:
               order_id: JWWXVTA3RJBA20200601093700
               receipt: 6cea472f-7e00-4f74-8dc1-9922067f9625
-              settlement_type: '00'
-              data:
-                resProcess: '1'
       responses:
         '200':
           description: OK
@@ -58,98 +50,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status'
-      operationId: post-notifications
-  '/orders/{order_id}':
-    parameters:
-      - schema:
-          type: string
-        name: order_id
-        in: path
-        required: true
-        description: オーダ-ID
-    post:
-      summary: ''
-      operationId: post-orders-order_id
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CancelResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-        '401':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-        '404':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-        '500':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-      description: 取消要求API
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: x-opn-country-code
-          description: 'ISO3166-1alpha-3countrycode"JPN","THA"'
-          required: true
-        - schema:
-            type: string
-          in: header
-          name: x-opn-api-key
-          required: true
-          description: APIキー
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CancelRequest'
-            examples:
-              example:
-                value:
-                  customer_number: '123412341234'
+      operationId: post-customers
 components:
   schemas:
-    CancelResponse:
-      title: CancelResponse
-      type: object
-      properties:
-        id:
-          type: string
-        success:
-          type: boolean
-          description: flag indicate order cancellation succeed or not.
-        receipt:
-          type: string
-          description: receipt data which used for verification on mini app backend
-        canceled_at:
-          type: number
-          description: canceled date time in Unixtimestamp format
-        country_code:
-          type: string
-          description: 'ISO 3166-1 alpha-3 country code "JPN", "THA"'
-      required:
-        - id
-        - success
-        - receipt
-        - canceled_at
-        - country_code
     Status:
       title: Status
       type: object
@@ -189,16 +92,7 @@ components:
       required:
         - code
         - message
-    CancelRequest:
-      title: CancelRequest
-      type: object
-      properties:
-        customer_number:
-          type: string
-          description: お客様番号
-      required:
-        - customer_number
-    PostNotificationRequest:
+    PostCustomerRequest:
       type: object
       properties:
         order_id:
@@ -209,69 +103,14 @@ components:
           type: string
           description: Platform APIから返ってきた決済レシートデータ
           example: 6cea472f-7e00-4f74-8dc1-9922067f9625
-        settlement_type:
-          type: string
-          description: '決済種別（"00":idpay, "01":ginkopay, "02":tspay)'
-          enum:
-            - '00'
-            - '01'
-            - '02'
-        data:
-          $ref: '#/components/schemas/PostNotificationData'
       required:
         - order_id
         - receipt
-        - settlement_type
-        - data
-    PostNotificationData:
-      type: object
-      properties:
-        resProcess:
-          type: string
-          description: '決済結果処理区分 ("1": 決済, "2": 売上)'
-          enum:
-            - '1'
-            - '2'
-          example: '1'
-      required:
-        - resProcess
   parameters:
-    x-ev-charge-platform:
-      schema:
-        type: string
-      in: header
-      name: x-ev-charge-platform
-      description: '"ios" or "android'
-      required: true
-    x-ev-charge-os-version:
-      schema:
-        type: string
-      in: header
-      name: x-ev-charge-os-version
-      required: true
-    x-ev-charge-device-name:
-      schema:
-        type: string
-      in: header
-      name: x-ev-charge-device-name
-      required: true
-    x-ev-charge-client-version:
-      schema:
-        type: string
-      in: header
-      name: x-ev-charge-client-version
-      required: true
-    x-ev-charge-country-code:
-      schema:
-        type: string
-      in: header
-      name: x-ev-charge-country-code
-      description: 'ISO 3166-1 alpha-3 country code "JPN", "THA"'
-      required: true
     x-opn-access-token:
       schema:
         type: string
       in: header
       name: x-opn-access-token
-      description: Access token for MiniApp Platform server
+      description: Access token 
       required: true
