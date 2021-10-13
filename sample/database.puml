@@ -1,4 +1,4 @@
-@startuml twallet-mini-app-ev-charge-server
+@startuml test-server
 
 skinparam DefaultFontName "Noto Sans"
 skinparam Dpi 144
