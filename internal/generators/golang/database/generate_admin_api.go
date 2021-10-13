@@ -1,13 +1,15 @@
 package database
 
 import (
-	"github.com/opn-ooo/opn-generator/pkg/database_schema"
-	"github.com/opn-ooo/opn-generator/pkg/template"
 	"os"
 	"strings"
+
+	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/opn-ooo/opn-generator/pkg/template"
 )
 
-func GenerateAdminAPIRoutes(schema *database_schema.Schema, path string) error {
+// GenerateAdminAPIRoutes ...
+func GenerateAdminAPIRoutes(schema *databaseschema.Schema, path string) error {
 	err := template.Replace(
 		"database",
 		"route",
@@ -19,7 +21,8 @@ func GenerateAdminAPIRoutes(schema *database_schema.Schema, path string) error {
 	return err
 }
 
-func GenerateAdminAPIHandlers(schema *database_schema.Schema, path string) error {
+// GenerateAdminAPIHandlers ...
+func GenerateAdminAPIHandlers(schema *databaseschema.Schema, path string) error {
 	err := template.Generate(
 		"database",
 		"admin_api_handler.tmpl",
@@ -46,7 +49,8 @@ func GenerateAdminAPIHandlers(schema *database_schema.Schema, path string) error
 	return nil
 }
 
-func GenerateAdminAPIRequests(schema *database_schema.Schema, path string) error {
+// GenerateAdminAPIRequests ...
+func GenerateAdminAPIRequests(schema *databaseschema.Schema, path string) error {
 	for _, entity := range schema.Entities {
 		err := template.Generate(
 			"database",
@@ -63,7 +67,8 @@ func GenerateAdminAPIRequests(schema *database_schema.Schema, path string) error
 	return nil
 }
 
-func GenerateAdminAPIResponse(schema *database_schema.Schema, path string) error {
+// GenerateAdminAPIResponse ...
+func GenerateAdminAPIResponse(schema *databaseschema.Schema, path string) error {
 	for _, entity := range schema.Entities {
 		err := template.Generate(
 			"database",

@@ -1,13 +1,15 @@
-package database_schema
+package databaseschema
 
 import (
-	"github.com/jinzhu/inflection"
-	"github.com/stoewer/go-strcase"
 	"io/ioutil"
 	"regexp"
 	"strings"
+
+	"github.com/jinzhu/inflection"
+	"github.com/stoewer/go-strcase"
 )
 
+// Parse ...
 func Parse(filePath string, projectName string) (*Schema, error) {
 	data := Schema{
 		FilePath:           filePath,

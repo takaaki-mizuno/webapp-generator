@@ -1,5 +1,6 @@
-package open_api_spec
+package openapispec
 
+// Request ...
 type Request struct {
 	Path                      string
 	PackageName               string

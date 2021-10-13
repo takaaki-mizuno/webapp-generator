@@ -1,13 +1,15 @@
 package api
 
 import (
-	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
-	"github.com/opn-ooo/opn-generator/pkg/template"
 	"os"
 	"strings"
+
+	"github.com/opn-ooo/opn-generator/pkg/openapispec"
+	"github.com/opn-ooo/opn-generator/pkg/template"
 )
 
-func GenerateHandlers(api *open_api_spec.API, path string) error {
+// GenerateHandlers ...
+func GenerateHandlers(api *openapispec.API, path string) error {
 	err := template.Replace(
 		"api",
 		"route",

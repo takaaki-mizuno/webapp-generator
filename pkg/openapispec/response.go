@@ -1,5 +1,6 @@
-package open_api_spec
+package openapispec
 
+// Response ...
 type Response struct {
 	StatusCode string
 	Success    bool

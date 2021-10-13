@@ -7,10 +7,10 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
-
 	htmlTemplate "text/template"
 )
 
+// Generate ...
 func Generate(templateType string, templateFileName string, projectBasePath string, destinationFilePath string, data interface{}) error {
 	templateFilePath := getTemplatePath(templateType, templateFileName, projectBasePath)
 
@@ -29,17 +29,8 @@ func Generate(templateType string, templateFileName string, projectBasePath stri
 	return nil
 }
 
-func Replace(templateType string, placeName string, templateFileName string, projectBasePath string, destinationFilePath string, data interface{}) error {
-	templateFilePath := getTemplatePath(templateType, templateFileName, projectBasePath)
-
-	templateInstance := htmlTemplate.Must(htmlTemplate.ParseFiles(templateFilePath))
-	buffer := &bytes.Buffer{}
-
-	err := templateInstance.Execute(buffer, data)
-	if err != nil {
-		return err
-	}
-
+// ReplaceWithString ...
+func ReplaceWithString(placeName string, replaceString string, projectBasePath string, destinationFilePath string) error {
 	filePointer, err := os.Open(projectBasePath + string(os.PathSeparator) + destinationFilePath)
 	if err != nil {
 		return err
@@ -70,7 +61,7 @@ func Replace(templateType string, placeName string, templateFileName string, pro
 			}
 		} else {
 			if strings.Contains(line, endString) {
-				result = append(result, buffer.String())
+				result = append(result, replaceString)
 				result = append(result, line)
 				replacing = false
 			}
@@ -83,6 +74,21 @@ func Replace(templateType string, placeName string, templateFileName string, pro
 	}
 
 	return nil
+}
+
+// Replace ...
+func Replace(templateType string, placeName string, templateFileName string, projectBasePath string, destinationFilePath string, data interface{}) error {
+	templateFilePath := getTemplatePath(templateType, templateFileName, projectBasePath)
+
+	templateInstance := htmlTemplate.Must(htmlTemplate.ParseFiles(templateFilePath))
+	buffer := &bytes.Buffer{}
+
+	err := templateInstance.Execute(buffer, data)
+	if err != nil {
+		return err
+	}
+
+	return ReplaceWithString(placeName, buffer.String(), projectBasePath, destinationFilePath)
 }
 
 func getTemplatePath(templateType string, fileName string, projectBasePath string) string {

@@ -1,4 +1,4 @@
-package open_api_spec
+package openapispec
 
 import (
 	"net/url"
@@ -9,6 +9,7 @@ import (
 	"github.com/stoewer/go-strcase"
 )
 
+// Parse ...
 func Parse(filePath string, namespace string, projectName string) (*API, error) {
 	defaultRouteNamespace := namespace
 	data := API{

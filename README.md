@@ -133,3 +133,8 @@ See the [open issues](https://github.com/opn-ooo/opn-generator/issues?q=is%3Aope
 And many more
 
 
+New project will be created in the same directory.
+
+## Datadog APM Settings
+
+[Datadog APM Settings](docs/datadog-apm.md)

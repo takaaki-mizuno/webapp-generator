@@ -1,13 +1,15 @@
 package database
 
 import (
-	"github.com/opn-ooo/opn-generator/pkg/database_schema"
-	"github.com/opn-ooo/opn-generator/pkg/template"
 	"os"
 	"strings"
+
+	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/opn-ooo/opn-generator/pkg/template"
 )
 
-func GenerateAdminAPISpec(schema *database_schema.Schema, path string) error {
+// GenerateAdminAPISpec ...
+func GenerateAdminAPISpec(schema *databaseschema.Schema, path string) error {
 	err := template.Generate(
 		"database",
 		"admin_api_spec.tmpl",
