@@ -1,17 +1,13 @@
-@startuml twallet-mini-app-ev-charge-server
+@startuml test-server
 
 skinparam DefaultFontName "Noto Sans"
 skinparam Dpi 144
 
-entity "payment_notifications" {
+entity "customers" {
 *id : bigint **<<PK>>**
 ==
 order_id: text - オーダーID
 receipt: text - 決済レシートデータ
-payment_type: text - 決済種別
-purchase_process: text - 購入処理区分
-payment_result_status: text - 決済処理ステータス
-payment_result_code: text - 決済処理コード
 created_at: timestamp
 updated_at: timestamp
 }
