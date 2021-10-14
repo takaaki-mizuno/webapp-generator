@@ -1,5 +1,6 @@
-package open_api_spec
+package openapispec
 
+// Property ...
 type Property struct {
 	Name          string
 	ObjectName    string

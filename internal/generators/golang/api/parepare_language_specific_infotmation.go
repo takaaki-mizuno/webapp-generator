@@ -4,11 +4,13 @@ import (
 	"strings"
 
 	"github.com/jinzhu/inflection"
-	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
 	"github.com/stoewer/go-strcase"
+
+	"github.com/opn-ooo/opn-generator/pkg/openapispec"
 )
 
-func BuildLanguageSpecificInfo(api *open_api_spec.API) error {
+// BuildLanguageSpecificInfo ...
+func BuildLanguageSpecificInfo(api *openapispec.API) error {
 	api.PackageName = "github.com/opn-ooo/" + api.ProjectName
 
 	for schemaIndex, schema := range api.Schemas {
@@ -55,7 +57,7 @@ func BuildLanguageSpecificInfo(api *open_api_spec.API) error {
 	return nil
 }
 
-func buildHandlerName(request *open_api_spec.Request) (string, error) {
+func buildHandlerName(request *openapispec.Request) (string, error) {
 	method := strcase.UpperCamelCase(strings.ToLower(request.Method))
 	if request.Path == "/" {
 		return "Index" + method, nil
@@ -78,7 +80,7 @@ func buildHandlerName(request *open_api_spec.Request) (string, error) {
 	return name, nil
 }
 
-func buildPathPresentation(request *open_api_spec.Request) (string, error) {
+func buildPathPresentation(request *openapispec.Request) (string, error) {
 	elements := strings.Split(request.Path, "/")
 	var result []string
 	for _, element := range elements {

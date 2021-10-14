@@ -2,15 +2,18 @@ package api
 
 import (
 	"fmt"
-	"github.com/opn-ooo/opn-generator/pkg/files"
-	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
-	"github.com/opn-ooo/opn-generator/pkg/template"
-	"github.com/stoewer/go-strcase"
 	"os"
 	"strings"
+
+	"github.com/stoewer/go-strcase"
+
+	"github.com/opn-ooo/opn-generator/pkg/files"
+	"github.com/opn-ooo/opn-generator/pkg/openapispec"
+	"github.com/opn-ooo/opn-generator/pkg/template"
 )
 
-func GenerateResponses(api *open_api_spec.API, path string) error {
+// GenerateResponses ...
+func GenerateResponses(api *openapispec.API, path string) error {
 	for _, request := range api.Requests {
 		for _, response := range request.Responses {
 			err := generateResponseStruct(response.Schema.Name, api, path)
@@ -22,7 +25,7 @@ func GenerateResponses(api *open_api_spec.API, path string) error {
 	return nil
 }
 
-func generateResponseStruct(name string, api *open_api_spec.API, path string) error {
+func generateResponseStruct(name string, api *openapispec.API, path string) error {
 	schema, ok := api.Schemas[name]
 	if !ok {
 		return fmt.Errorf("response %s not found", name)

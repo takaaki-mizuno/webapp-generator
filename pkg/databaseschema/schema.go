@@ -1,5 +1,6 @@
-package database_schema
+package databaseschema
 
+// Schema ...
 type Schema struct {
 	FilePath           string
 	ProjectName        string

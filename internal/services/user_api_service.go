@@ -3,7 +3,7 @@ package services
 import (
 	"github.com/opn-ooo/opn-generator/config"
 	"github.com/opn-ooo/opn-generator/internal/generators"
-	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
+	"github.com/opn-ooo/opn-generator/pkg/openapispec"
 )
 
 // UserAPIServiceInterface ...
@@ -16,8 +16,9 @@ type UserAPIService struct {
 	config *config.Config
 }
 
+// GenerateUserAPI ...
 func (service *UserAPIService) GenerateUserAPI(path string, apiDefinitionPath string, language string, projectName string) error {
-	api, err := open_api_spec.Parse(apiDefinitionPath, "app", projectName)
+	api, err := openapispec.Parse(apiDefinitionPath, "app", projectName)
 	if err != nil {
 		return err
 	}

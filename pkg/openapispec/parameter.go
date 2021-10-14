@@ -1,5 +1,6 @@
-package open_api_spec
+package openapispec
 
+// Parameter ...
 type Parameter struct {
 	Name       Name
 	In         string

@@ -7,4 +7,8 @@ $ ./opn-generator new [projectName] --database [/path/to/plantUMLFile] --api [/p
 
 where `--database`, `--api` are options.
 
-New project will be created in the same directory. 
+New project will be created in the same directory.
+
+## Datadog APM Settings
+
+[Datadog APM Settings](docs/datadog-apm.md)

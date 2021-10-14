@@ -2,24 +2,25 @@ package generators
 
 import (
 	"fmt"
-	apiGenerator "github.com/opn-ooo/opn-generator/internal/generators/golang/api"
-	databaseGenerator "github.com/opn-ooo/opn-generator/internal/generators/golang/database"
 	"io/ioutil"
+	"os"
 	"os/exec"
 	"path/filepath"
-
-	"github.com/opn-ooo/opn-generator/pkg/database_schema"
-	"github.com/opn-ooo/opn-generator/pkg/files"
-	"github.com/opn-ooo/opn-generator/pkg/open_api_spec"
-	"os"
 	"strings"
+
+	apiGenerator "github.com/opn-ooo/opn-generator/internal/generators/golang/api"
+	databaseGenerator "github.com/opn-ooo/opn-generator/internal/generators/golang/database"
+	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/opn-ooo/opn-generator/pkg/files"
+	"github.com/opn-ooo/opn-generator/pkg/openapispec"
 )
 
-// GitServiceInterface ...
+// GolangGenerator ...
 type GolangGenerator struct {
 }
 
-func (generator *GolangGenerator) GenerateRequestInformation(api *open_api_spec.API, path string) error {
+// GenerateRequestInformation ...
+func (generator *GolangGenerator) GenerateRequestInformation(api *openapispec.API, path string) error {
 	err := files.CopyFile(api.FilePath, strings.Join([]string{path, "docs", "user_api.yaml"}, string(os.PathSeparator)))
 	if err != nil {
 		return err
@@ -36,7 +37,8 @@ func (generator *GolangGenerator) GenerateRequestInformation(api *open_api_spec.
 	return err
 }
 
-func (generator *GolangGenerator) GenerateEntityInformation(schema *database_schema.Schema, path string) error {
+// GenerateEntityInformation ...
+func (generator *GolangGenerator) GenerateEntityInformation(schema *databaseschema.Schema, path string) error {
 	err := files.CopyFile(schema.FilePath, strings.Join([]string{path, "docs", "database.puml"}, string(os.PathSeparator)))
 	if err != nil {
 		return err
@@ -49,7 +51,7 @@ func (generator *GolangGenerator) GenerateEntityInformation(schema *database_sch
 	return err
 }
 
-func generateAPIRelatedFiles(api *open_api_spec.API, path string) error {
+func generateAPIRelatedFiles(api *openapispec.API, path string) error {
 	err := apiGenerator.GenerateHandlers(api, path)
 	if err != nil {
 		return err
@@ -62,7 +64,7 @@ func generateAPIRelatedFiles(api *open_api_spec.API, path string) error {
 	return err
 }
 
-func generateModelRelatedFiles(schema *database_schema.Schema, path string) error {
+func generateModelRelatedFiles(schema *databaseschema.Schema, path string) error {
 	err := databaseGenerator.GenerateModels(schema, path)
 	if err != nil {
 		return err

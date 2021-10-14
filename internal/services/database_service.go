@@ -3,7 +3,7 @@ package services
 import (
 	"github.com/opn-ooo/opn-generator/config"
 	"github.com/opn-ooo/opn-generator/internal/generators"
-	"github.com/opn-ooo/opn-generator/pkg/database_schema"
+	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
 )
 
 // DatabaseServiceInterface ...
@@ -17,8 +17,9 @@ type DatabaseService struct {
 	config *config.Config
 }
 
+// GenerateDatabase ...
 func (service *DatabaseService) GenerateDatabase(path string, databaseDefinitionPath string, language string, projectName string) error {
-	schema, err := database_schema.Parse(databaseDefinitionPath, projectName)
+	schema, err := databaseschema.Parse(databaseDefinitionPath, projectName)
 	if err != nil {
 		return err
 	}
@@ -32,6 +33,7 @@ func (service *DatabaseService) GenerateDatabase(path string, databaseDefinition
 	return nil
 }
 
+// GenerateAdminAPI ...
 func (service *DatabaseService) GenerateAdminAPI(path string, apiDefinitionPath string, language string, projectName string) error {
 	return nil
 }
