@@ -8,6 +8,6 @@ type Entity struct {
 	PrimaryKey  *Column
 	Description string
 	HasDecimal  bool
-	HasJson     bool
+	HasJSON     bool
 	PackageName string
 }

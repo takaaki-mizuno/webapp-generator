@@ -9,6 +9,7 @@ import (
 	"github.com/opn-ooo/opn-generator/pkg/template"
 )
 
+// GenerateMigrations ...
 func GenerateMigrations(schema *databaseschema.Schema, path string) error {
 
 	for index, entity := range schema.Entities {
