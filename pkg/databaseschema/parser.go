@@ -32,7 +32,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 		entityObject := Entity{
 			Name:       generateName(name),
 			HasDecimal: false,
-			HasJson:    false,
+			HasJSON:    false,
 		}
 		columns := strings.Split(strings.TrimSpace(entity[2]), "\n")
 		for _, column := range columns {
@@ -77,7 +77,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 					entityObject.HasDecimal = true
 				}
 				if strings.HasPrefix(dataType, "json") {
-					entityObject.HasJson = true
+					entityObject.HasJSON = true
 				}
 			}
 		}
