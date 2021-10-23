@@ -51,11 +51,11 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 				}
 				if name == "id" {
 					primary = true
-					if dataType != "uuid" && dataType != "string" {
+					if dataType != "uuid" && dataType != "text" {
 						dataType = "bigserial"
 					} else {
 						defaultValue = "uuid_generate_v4()"
-						data.PrimaryKeyDataType = "string"
+						data.PrimaryKeyDataType = "text"
 					}
 				}
 				columnObject := &Column{
