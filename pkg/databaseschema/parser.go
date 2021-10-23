@@ -28,9 +28,9 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 	relations := relationRegex.FindAllStringSubmatch(cleanContent, -1)
 
 	for _, entity := range entities {
-		name := entity[1]
+		entityName := entity[1]
 		entityObject := Entity{
-			Name:       generateName(name),
+			Name:       generateName(entityName),
 			HasDecimal: false,
 			HasJSON:    false,
 		}
@@ -40,7 +40,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 			if len(foundColumns) > 0 {
 				primary := false
 				nullable := false
-				name = strings.ToLower(foundColumns[0][2])
+				name := strings.ToLower(foundColumns[0][2])
 				dataType := strings.ToLower(foundColumns[0][3])
 				defaultValue := ""
 				if name == "created_at" || name == "updated_at" {
@@ -51,7 +51,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 				}
 				if name == "id" {
 					primary = true
-					if dataType != "uuid" {
+					if dataType != "uuid" && dataType != "string" {
 						dataType = "bigserial"
 					} else {
 						defaultValue = "uuid_generate_v4()"
@@ -59,6 +59,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 					}
 				}
 				columnObject := &Column{
+					TableName:    entityName,
 					Name:         generateName(name),
 					DataType:     dataType,
 					Primary:      primary,
@@ -68,6 +69,11 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 				columnObject.APIReturnable = checkAPIReturnable(columnObject)
 				columnObject.APIUpdatable = checkAPIUpdatable(columnObject)
 				columnObject.APIType = getAPIType(columnObject)
+				if name == "id" {
+					columnObject.IsCommonColumn = true
+				} else {
+					columnObject.IsCommonColumn = false
+				}
 
 				entityObject.Columns = append(entityObject.Columns, columnObject)
 				if name == "id" {

@@ -18,6 +18,7 @@ func BuildLanguageSpecificInfo(schema *databaseschema.Schema) error {
 			schema.Entities[index].Columns[columnIndex].ObjectName = buildColumnObjectName(column)
 			schema.Entities[index].Columns[columnIndex].ObjectType = buildColumnObjectType(column)
 			schema.Entities[index].Columns[columnIndex].APIObjectType = buildColumnAPIObjectType(column)
+			schema.Entities[index].Columns[columnIndex].FakerType = buildFakerObjectType(column)
 		}
 		for relationIndex, relation := range schema.Entities[index].Relations {
 			schema.Entities[index].Relations[relationIndex].ObjectName = buildRelationObjectName(relation)
@@ -82,6 +83,54 @@ func buildColumnAPIObjectType(column *databaseschema.Column) string {
 	}
 
 	return "string"
+}
+
+func buildFakerObjectType(column *databaseschema.Column) string {
+	dataType := strings.ToLower(column.DataType)
+	name := column.Name.Original
+
+	switch dataType {
+	case "text":
+		if name == "id" || strings.HasSuffix(name, "_id") {
+			return "uuid_digit"
+		}
+		if name == "url" || strings.HasSuffix(name, "_url") {
+			return "url"
+		}
+		if name == "username" || name == "user_name" {
+			return "username"
+		}
+		if name == "name" || strings.HasSuffix(name, "_name") {
+			return "name"
+		}
+		if strings.HasSuffix(name, "email") {
+			return "email"
+		}
+		if strings.HasSuffix(name, "description") {
+			return "sentence"
+		}
+		return "word"
+	case "int":
+		if strings.HasSuffix(name, "_at") {
+			return "unix_time"
+		}
+		return "oneof: 500, 1000"
+	case "bigserial":
+		return "oneof: 500, 1000"
+	case "bigint":
+		if strings.HasSuffix(name, "_at") {
+			return "unix_time"
+		}
+		return "oneof: 500, 1000"
+	case "timestamp":
+		return "unix_time"
+	case "boolean":
+		return "word"
+	case "jsonb":
+		return "word"
+	}
+
+	return "word"
 }
 
 func buildRelationObjectName(relation *databaseschema.Relation) string {

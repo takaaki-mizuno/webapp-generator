@@ -108,6 +108,6 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		err = userAPIService.GenerateUserAPI(tempProjectPath, apiDefinitionPath, language, projectName)
 		assert.NotNil(t, err)
 
-		os.RemoveAll(tempProjectPath+ string(os.PathSeparator) + "test")
+		os.RemoveAll(tempProjectPath + string(os.PathSeparator) + "test")
 	})
 }
