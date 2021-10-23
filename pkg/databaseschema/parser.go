@@ -59,7 +59,7 @@ func Parse(filePath string, projectName string) (*Schema, error) {
 					}
 				}
 				columnObject := &Column{
-					TableName:    entityName,
+					TableName:    entityObject.Name,
 					Name:         generateName(name),
 					DataType:     dataType,
 					Primary:      primary,
