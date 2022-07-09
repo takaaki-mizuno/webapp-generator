@@ -20,7 +20,7 @@ func Parse(filePath string, namespace string, projectName string) (*API, error) 
 		Schemas:        map[string]*Schema{},
 		RouteNameSpace: defaultRouteNamespace,
 	}
-	swagger, err := openapi3.NewSwaggerLoader().LoadSwaggerFromFile(filePath)
+	swagger, err := openapi3.NewLoader().LoadFromFile(filePath)
 	if err != nil {
 		return nil, err
 	}
