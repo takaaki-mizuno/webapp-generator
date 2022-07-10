@@ -10,15 +10,16 @@ import (
 )
 
 // Parse ...
-func Parse(filePath string, namespace string, projectName string) (*API, error) {
+func Parse(filePath string, namespace string, projectName string, organizationName string) (*API, error) {
 	defaultRouteNamespace := namespace
 	data := API{
-		FilePath:       filePath,
-		BasePath:       "/",
-		APINameSpace:   namespace,
-		ProjectName:    projectName,
-		Schemas:        map[string]*Schema{},
-		RouteNameSpace: defaultRouteNamespace,
+		FilePath:         filePath,
+		BasePath:         "/",
+		APINameSpace:     namespace,
+		ProjectName:      projectName,
+		OrganizationName: organizationName,
+		Schemas:          map[string]*Schema{},
+		RouteNameSpace:   defaultRouteNamespace,
 	}
 	swagger, err := openapi3.NewLoader().LoadFromFile(filePath)
 	if err != nil {

@@ -16,7 +16,7 @@ func TestHandler_NewHandler(t *testing.T) {
 		userAPIService := services.MockUserAPIService{}
 		databaseService := services.MockDatabaseService{}
 		handler := NewNewHandler(configInstance, &gitService, &userAPIService, &databaseService)
-		err := handler.Execute("test", ".", "", "")
+		err := handler.Execute("test", ".", "", "", "test")
 		assert.Nil(t, err)
 	})
 
@@ -26,7 +26,7 @@ func TestHandler_NewHandler(t *testing.T) {
 		userAPIService := services.MockUserAPIService{}
 		databaseService := services.MockDatabaseService{}
 		handler := NewNewHandler(configInstance, &gitService, &userAPIService, &databaseService)
-		err := handler.Execute("test", ".", "test.yaml", "")
+		err := handler.Execute("test", ".", "test.yaml", "", "test")
 		assert.Nil(t, err)
 	})
 }

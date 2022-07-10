@@ -71,7 +71,7 @@ func AddRepositoryToDIContainer(schema *databaseschema.Schema, path string) erro
 	}
 	err = template.ReplaceWithString(
 		"repository_import",
-		"\t\"github.com/opn-ooo/opn-reward/internal/repositories\"",
+		"\t\""+schema.PackageName+"/internal/repositories\"",
 		path,
 		strings.Join([]string{"cmd", "container.go"}, string(os.PathSeparator)),
 	)

@@ -16,7 +16,7 @@ type NewHandler struct {
 }
 
 // Execute ... make new project
-func (handler *NewHandler) Execute(projectName string, targetPath string, apiDefinitionPath string, databaseDefinitionPath string) error {
+func (handler *NewHandler) Execute(projectName string, targetPath string, apiDefinitionPath string, databaseDefinitionPath string, organizationName string) error {
 	err := handler.gitService.DownloadBoilerplate(targetPath, projectName)
 	if err != nil {
 		log.Fatal(err)
@@ -24,18 +24,18 @@ func (handler *NewHandler) Execute(projectName string, targetPath string, apiDef
 	}
 
 	if apiDefinitionPath != "" {
-		err = handler.userAPIService.GenerateUserAPI(targetPath+string(os.PathSeparator)+projectName, apiDefinitionPath, "golang", projectName)
+		err = handler.userAPIService.GenerateUserAPI(targetPath+string(os.PathSeparator)+projectName, apiDefinitionPath, "golang", projectName, organizationName)
 		if err != nil {
 			return err
 		}
 	}
 
 	if databaseDefinitionPath != "" {
-		err = handler.databaseService.GenerateDatabase(targetPath+string(os.PathSeparator)+projectName, databaseDefinitionPath, "golang", projectName)
+		err = handler.databaseService.GenerateDatabase(targetPath+string(os.PathSeparator)+projectName, databaseDefinitionPath, "golang", projectName, organizationName)
 		if err != nil {
 			return err
 		}
-		err = handler.databaseService.GenerateAdminAPI(targetPath+string(os.PathSeparator)+projectName, databaseDefinitionPath, "golang", projectName)
+		err = handler.databaseService.GenerateAdminAPI(targetPath+string(os.PathSeparator)+projectName, databaseDefinitionPath, "golang", projectName, organizationName)
 		if err != nil {
 			return err
 		}

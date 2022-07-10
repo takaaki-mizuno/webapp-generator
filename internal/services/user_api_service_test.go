@@ -17,6 +17,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 
 		projectName := "test"
 		language := "golang"
+		organizationName := "test"
 
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
@@ -31,7 +32,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		err = gitService.DownloadBoilerplate(currentPath, projectName)
 		assert.Nil(t, err)
 
-		err = userAPIService.GenerateUserAPI(tempProjectPath, apiDefinitionPath, language, projectName)
+		err = userAPIService.GenerateUserAPI(tempProjectPath, apiDefinitionPath, language, projectName, organizationName)
 		assert.Nil(t, err)
 
 		os.RemoveAll(tempProjectPath)
@@ -42,6 +43,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		userAPIService := NewUserAPIService(configInstance)
 
 		projectName := "test"
+		organizationName := "test"
 
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
@@ -57,7 +59,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		language := "golang"
 		tempProjectPath := currentPath + string(os.PathSeparator) + projectName
 
-		err = userAPIService.GenerateUserAPI("", apiDefinitionPath, language, projectName)
+		err = userAPIService.GenerateUserAPI("", apiDefinitionPath, language, projectName, organizationName)
 		assert.NotNil(t, err)
 
 		os.RemoveAll(tempProjectPath)
@@ -68,6 +70,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		userAPIService := NewUserAPIService(configInstance)
 
 		projectName := "test"
+		organizationName := "test"
 
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
@@ -79,7 +82,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		language := "golang"
 		tempProjectPath := currentPath + string(os.PathSeparator) + projectName
 
-		err = userAPIService.GenerateUserAPI(tempProjectPath, "", language, projectName)
+		err = userAPIService.GenerateUserAPI(tempProjectPath, "", language, projectName, organizationName)
 		assert.NotNil(t, err)
 
 		os.RemoveAll(tempProjectPath)
@@ -91,6 +94,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 
 		projectName := ""
 		language := "golang"
+		organizationName := "test"
 
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
@@ -105,7 +109,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		err = gitService.DownloadBoilerplate(currentPath, "test")
 		assert.Nil(t, err)
 
-		err = userAPIService.GenerateUserAPI(tempProjectPath, apiDefinitionPath, language, projectName)
+		err = userAPIService.GenerateUserAPI(tempProjectPath, apiDefinitionPath, language, projectName, organizationName)
 		assert.NotNil(t, err)
 
 		os.RemoveAll(tempProjectPath + string(os.PathSeparator) + "test")

@@ -10,10 +10,11 @@ import (
 )
 
 // Parse ...
-func Parse(filePath string, projectName string) (*Schema, error) {
+func Parse(filePath string, projectName string, organizationName string) (*Schema, error) {
 	data := Schema{
 		FilePath:           filePath,
 		ProjectName:        projectName,
+		OrganizationName:   organizationName,
 		PrimaryKeyDataType: "int64",
 	}
 	content, err := ioutil.ReadFile(filePath)
@@ -202,6 +203,8 @@ func getAPIType(column *Column) string {
 		return "string"
 	case "boolean":
 		return "boolean"
+	case "float":
+		return "number"
 	case "jsonb":
 		return "string"
 	case "timestamp":
