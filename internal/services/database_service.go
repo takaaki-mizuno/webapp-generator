@@ -8,8 +8,8 @@ import (
 
 // DatabaseServiceInterface ...
 type DatabaseServiceInterface interface {
-	GenerateDatabase(path string, databaseDefinitionPath string, language string, projectName string) error
-	GenerateAdminAPI(path string, databaseDefinitionPath string, language string, projectName string) error
+	GenerateDatabase(path string, databaseDefinitionPath string, language string, projectName string, organizationName string) error
+	GenerateAdminAPI(path string, databaseDefinitionPath string, language string, projectName string, organizationName string) error
 }
 
 // DatabaseService ...
@@ -18,8 +18,8 @@ type DatabaseService struct {
 }
 
 // GenerateDatabase ...
-func (service *DatabaseService) GenerateDatabase(path string, databaseDefinitionPath string, language string, projectName string) error {
-	schema, err := databaseschema.Parse(databaseDefinitionPath, projectName)
+func (service *DatabaseService) GenerateDatabase(path string, databaseDefinitionPath string, language string, projectName string, organizationName string) error {
+	schema, err := databaseschema.Parse(databaseDefinitionPath, projectName, organizationName)
 	if err != nil {
 		return err
 	}
@@ -34,7 +34,7 @@ func (service *DatabaseService) GenerateDatabase(path string, databaseDefinition
 }
 
 // GenerateAdminAPI ...
-func (service *DatabaseService) GenerateAdminAPI(path string, apiDefinitionPath string, language string, projectName string) error {
+func (service *DatabaseService) GenerateAdminAPI(path string, apiDefinitionPath string, language string, projectName string, organizationName string) error {
 	return nil
 }
 

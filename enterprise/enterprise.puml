@@ -1,0 +1,15 @@
+@startuml test-server
+
+skinparam DefaultFontName "Noto Sans"
+skinparam Dpi 144
+
+entity "customers" {
+*id : bigint **<<PK>>**
+==
+order_id: text - オーダーID
+receipt: text - 決済レシートデータ
+created_at: timestamp
+updated_at: timestamp
+}
+
+@enduml

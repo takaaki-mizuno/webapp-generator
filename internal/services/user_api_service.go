@@ -8,7 +8,7 @@ import (
 
 // UserAPIServiceInterface ...
 type UserAPIServiceInterface interface {
-	GenerateUserAPI(path string, apiDefinitionPath string, language string, projectName string) error
+	GenerateUserAPI(path string, apiDefinitionPath string, language string, projectName string, organizationName string) error
 }
 
 // UserAPIService ...
@@ -17,8 +17,8 @@ type UserAPIService struct {
 }
 
 // GenerateUserAPI ...
-func (service *UserAPIService) GenerateUserAPI(path string, apiDefinitionPath string, language string, projectName string) error {
-	api, err := openapispec.Parse(apiDefinitionPath, "app", projectName)
+func (service *UserAPIService) GenerateUserAPI(path string, apiDefinitionPath string, language string, projectName string, organizationName string) error {
+	api, err := openapispec.Parse(apiDefinitionPath, "app", projectName, organizationName)
 	if err != nil {
 		return err
 	}

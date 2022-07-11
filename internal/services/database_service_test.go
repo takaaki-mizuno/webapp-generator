@@ -17,6 +17,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 
 		projectName := "test"
 		language := "golang"
+		organizationName := "test"
 
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
@@ -31,7 +32,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 		err = gitService.DownloadBoilerplate(currentPath, projectName)
 		assert.Nil(t, err)
 
-		err = databaseService.GenerateDatabase(tempProjectPath, apiDefinitionPath, language, projectName)
+		err = databaseService.GenerateDatabase(tempProjectPath, apiDefinitionPath, language, projectName, organizationName)
 		assert.Nil(t, err)
 
 		os.RemoveAll(tempProjectPath)
@@ -43,6 +44,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 
 		projectName := "test"
 		language := "golang"
+		organizationName := "test"
 
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
@@ -57,7 +59,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 		err = gitService.DownloadBoilerplate(currentPath, projectName)
 		assert.Nil(t, err)
 
-		err = databaseService.GenerateDatabase("", apiDefinitionPath, language, projectName)
+		err = databaseService.GenerateDatabase("", apiDefinitionPath, language, projectName, organizationName)
 		assert.NotNil(t, err)
 
 		os.RemoveAll(tempProjectPath)
@@ -69,6 +71,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 
 		projectName := "test"
 		language := "golang"
+		organizationName := "test"
 
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
@@ -79,7 +82,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 		err = gitService.DownloadBoilerplate(currentPath, projectName)
 		assert.Nil(t, err)
 
-		err = databaseService.GenerateDatabase(tempProjectPath, "", language, projectName)
+		err = databaseService.GenerateDatabase(tempProjectPath, "", language, projectName, organizationName)
 		assert.NotNil(t, err)
 
 		os.RemoveAll(tempProjectPath)
@@ -91,6 +94,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 
 		projectName := "test"
 		language := "golang"
+		organizationName := "test"
 
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
@@ -105,7 +109,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 		err = gitService.DownloadBoilerplate(currentPath, projectName)
 		assert.Nil(t, err)
 
-		err = databaseService.GenerateDatabase(currentPath, apiDefinitionPath, language, "")
+		err = databaseService.GenerateDatabase(currentPath, apiDefinitionPath, language, projectName, organizationName)
 		assert.NotNil(t, err)
 
 		os.RemoveAll(tempProjectPath)

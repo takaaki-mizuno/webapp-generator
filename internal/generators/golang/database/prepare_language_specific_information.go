@@ -11,7 +11,7 @@ import (
 
 // BuildLanguageSpecificInfo ...
 func BuildLanguageSpecificInfo(schema *databaseschema.Schema) error {
-	schema.PackageName = "github.com/opn-ooo/" + schema.ProjectName
+	schema.PackageName = "github.com/" + schema.OrganizationName + "/" + schema.ProjectName
 	for index := range schema.Entities {
 		schema.Entities[index].PackageName = schema.PackageName
 		for columnIndex, column := range schema.Entities[index].Columns {
@@ -47,6 +47,10 @@ func buildColumnObjectType(column *databaseschema.Column) string {
 		return "int32"
 	case "bigserial":
 		return "int64"
+	case "float":
+		return "float32"
+	case "real":
+		return "float32"
 	case "bigint":
 		return "int64"
 	case "timestamp":

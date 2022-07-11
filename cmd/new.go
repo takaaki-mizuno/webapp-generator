@@ -47,6 +47,11 @@ var newCmd = &cobra.Command{
 			log.Fatal(err)
 			return err
 		}
+		organizationName, err := command.Flags().GetString("organization")
+		if err != nil {
+			log.Fatal(err)
+			return err
+		}
 
 		container := internal.BuildContainer()
 		var newHandler *handlers.NewHandler
@@ -60,7 +65,7 @@ var newCmd = &cobra.Command{
 			return err
 		}
 
-		err = newHandler.Execute(args[0], currentPath, apiDefinitionPath, databaseDefinitionPath)
+		err = newHandler.Execute(args[0], currentPath, apiDefinitionPath, databaseDefinitionPath, organizationName)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -72,4 +77,5 @@ func init() {
 	rootCmd.AddCommand(newCmd)
 	newCmd.Flags().String("api", "", "OPN spec file ( yaml or json ) for user api")
 	newCmd.Flags().String("database", "", "PlantUML file for entities")
+	newCmd.Flags().String("organization", "", "Organization")
 }

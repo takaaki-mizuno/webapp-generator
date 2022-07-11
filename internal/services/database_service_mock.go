@@ -5,11 +5,11 @@ type MockDatabaseService struct {
 }
 
 // GenerateDatabase ...
-func (service *MockDatabaseService) GenerateDatabase(path string, databaseDefinitionPath string, language string, projectName string) error {
+func (service *MockDatabaseService) GenerateDatabase(path string, databaseDefinitionPath string, language string, projectName string, organizationName string) error {
 	return nil
 }
 
 // GenerateAdminAPI ...
-func (service *MockDatabaseService) GenerateAdminAPI(path string, databaseDefinitionPath string, language string, projectName string) error {
+func (service *MockDatabaseService) GenerateAdminAPI(path string, databaseDefinitionPath string, language string, projectName string, organizationName string) error {
 	return nil
 }

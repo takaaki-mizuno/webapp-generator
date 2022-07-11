@@ -11,7 +11,7 @@ import (
 
 // BuildLanguageSpecificInfo ...
 func BuildLanguageSpecificInfo(api *openapispec.API) error {
-	api.PackageName = "github.com/opn-ooo/" + api.ProjectName
+	api.PackageName = "github.com/" + api.OrganizationName + "/" + api.ProjectName
 
 	for schemaIndex, schema := range api.Schemas {
 		api.Schemas[schemaIndex].ObjectName = strcase.UpperCamelCase(schema.Name)
