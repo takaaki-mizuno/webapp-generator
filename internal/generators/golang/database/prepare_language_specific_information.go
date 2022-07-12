@@ -82,6 +82,14 @@ func buildColumnAPIObjectType(column *databaseschema.Column) string {
 		return "int64"
 	case "boolean":
 		return "bool"
+	case "float":
+		return "float32"
+	case "double":
+		return "float64"
+	case "real":
+		return "float32"
+	case "json":
+		return "string"
 	case "jsonb":
 		return "string"
 	}
