@@ -50,7 +50,7 @@ func (service *GitService) DownloadBoilerplate(path string, projectName string) 
 
 func downloadFile(targetURL string, directoryPath string) (string, error) {
 	response, err := grab.Get(directoryPath, targetURL)
-	if err != nil {
+	if err != nil && response.HTTPResponse.StatusCode != 200 {
 		log.Fatal(err)
 		return "", err
 	}
