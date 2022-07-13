@@ -40,7 +40,7 @@ func Parse(filePath string, projectName string, organizationName string) (*Schem
 			foundColumns := columnRegex.FindAllStringSubmatch(column, 1)
 			if len(foundColumns) > 0 {
 				primary := false
-				nullable := false
+				nullable := true
 				name := strings.ToLower(foundColumns[0][2])
 				dataType := strings.ToLower(foundColumns[0][3])
 				defaultValue := ""
@@ -48,7 +48,7 @@ func Parse(filePath string, projectName string, organizationName string) (*Schem
 					continue
 				}
 				if foundColumns[0][1] == "*" {
-					nullable = true
+					nullable = false
 				}
 				if name == "id" {
 					primary = true
@@ -123,6 +123,7 @@ func Parse(filePath string, projectName string, organizationName string) (*Schem
 		if leftColumnIndex > -1 {
 			leftRelation.Column = leftTable.Columns[leftColumnIndex]
 			leftRelation.RelationType = "belongsTo"
+			leftTable.Columns[leftColumnIndex].RelationTableName = rightTable.Name
 		} else {
 			leftRelation.Column = rightTable.Columns[rightColumnIndex]
 			if rightRelationMany {
@@ -140,6 +141,7 @@ func Parse(filePath string, projectName string, organizationName string) (*Schem
 		if rightColumnIndex > -1 {
 			rightRelation.Column = rightTable.Columns[rightColumnIndex]
 			rightRelation.RelationType = "belongsTo"
+			rightTable.Columns[rightColumnIndex].RelationTableName = leftTable.Name
 		} else {
 			rightRelation.Column = leftTable.Columns[leftColumnIndex]
 			if leftRelationMany {

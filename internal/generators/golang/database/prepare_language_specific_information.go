@@ -122,6 +122,8 @@ func buildFakerObjectType(column *databaseschema.Column) string {
 			return "sentence"
 		}
 		return "word"
+	case "real":
+		return "amount"
 	case "int":
 		if strings.HasSuffix(name, "_at") {
 			return "unix_time"
