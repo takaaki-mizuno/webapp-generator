@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <h3 align="center">OPN Generator</h3>
+  <h3 align="center">WebApp Generator</h3>
   <p align="center">
     OPN Generator is a tool to build a new application by providing API specification and Database schema.  
     <br />
