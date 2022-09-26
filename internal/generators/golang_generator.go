@@ -115,7 +115,7 @@ func replacePackageName(path string, packageName string) error {
 				return err
 			}
 			code := string(input)
-			code = strings.Replace(code, "github.com/opn-ooo/go-boilerplate", packageName, -1)
+			code = strings.Replace(code, "github.com/takaaki-mizuno/go-boilerplate", packageName, -1)
 			err = ioutil.WriteFile(path, []byte(code), 0644)
 			if err != nil {
 				return err

@@ -10,7 +10,7 @@ import (
 // Config ...
 type Config struct {
 	Boilerplate struct {
-		URL string `default:"https://github.com/opn-ooo/go-boilerplate/archive/main.zip"`
+		URL string `default:"https://github.com/takaaki-mizuno/go-boilerplate/archive/main.zip"`
 	}
 }
 
