@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/opn-ooo/opn-generator/config"
-	"github.com/opn-ooo/opn-generator/internal/services"
+	"github.com/takaaki-mizuno/webapp-generator/config"
+	"github.com/takaaki-mizuno/webapp-generator/internal/services"
 )
 
 func TestHandler_NewHandler(t *testing.T) {

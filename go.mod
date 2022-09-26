@@ -1,4 +1,4 @@
-module github.com/opn-ooo/opn-generator
+module github.com/takaaki-mizuno/webapp-generator
 
 go 1.18
 

@@ -4,8 +4,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
-	"github.com/opn-ooo/opn-generator/pkg/template"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/databaseschema"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/template"
 )
 
 // GenerateAdminAPISpec ...

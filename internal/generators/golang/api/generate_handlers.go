@@ -4,8 +4,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/opn-ooo/opn-generator/pkg/openapispec"
-	"github.com/opn-ooo/opn-generator/pkg/template"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/openapispec"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/template"
 )
 
 // GenerateHandlers ...

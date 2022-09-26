@@ -11,7 +11,7 @@ import (
 
 	"github.com/cavaliercoder/grab"
 
-	"github.com/opn-ooo/opn-generator/config"
+	"github.com/takaaki-mizuno/webapp-generator/config"
 )
 
 // GitServiceInterface ...

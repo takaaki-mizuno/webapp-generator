@@ -1,8 +1,8 @@
 package generators
 
 import (
-	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
-	"github.com/opn-ooo/opn-generator/pkg/openapispec"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/databaseschema"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/openapispec"
 )
 
 // GeneratorInterface ...

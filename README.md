@@ -8,7 +8,7 @@
     OPN Generator is a tool to build a new application by providing API specification and Database schema.  
     <br />
     <br />
-    <a href="https://github.com/opn-ooo/opn-generator/issues/new">Report Bug</a>
+    <a href="https://github.com/takaaki-mizuno/webapp-generator/issues/new">Report Bug</a>
   </p>
 </p>
 
@@ -86,7 +86,7 @@ You can use MacOS, Linux or Windows as operating system to use this tool. To get
 
 1. Clone - Go to a folder where you would like to clone this tool and run following.
    ```sh
-   $ git clone https://github.com/opn-ooo/opn-generator.git
+   $ git clone https://github.com/takaaki-mizuno/webapp-generator.git
    ```
 2. Build - Go to the opn-generator directory and run following. 
    ```sh
@@ -115,7 +115,7 @@ _To check sample files of API specification and Database schema, have a look ove
 The roadmap is useful for planning large pieces of work several months in advance at the Epic level within a single project. Simple planning and dependency management features help teams visualize and manage work better together. 
 
 
-See the [open issues](https://github.com/opn-ooo/opn-generator/issues?q=is%3Aopen+is%3Aissue) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/takaaki-mizuno/webapp-generator/issues?q=is%3Aopen+is%3Aissue) for a list of proposed features (and known issues).
 
 
 

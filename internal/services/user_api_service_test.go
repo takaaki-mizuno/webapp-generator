@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/opn-ooo/opn-generator/config"
+	"github.com/takaaki-mizuno/webapp-generator/config"
 )
 
 func Test_userAPIService_GenerateUserAPI(t *testing.T) {

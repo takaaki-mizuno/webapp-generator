@@ -1,9 +1,9 @@
 package services
 
 import (
-	"github.com/opn-ooo/opn-generator/config"
-	"github.com/opn-ooo/opn-generator/internal/generators"
-	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/takaaki-mizuno/webapp-generator/config"
+	"github.com/takaaki-mizuno/webapp-generator/internal/generators"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/databaseschema"
 )
 
 // DatabaseServiceInterface ...

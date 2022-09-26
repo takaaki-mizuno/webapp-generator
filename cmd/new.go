@@ -22,8 +22,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/opn-ooo/opn-generator/internal"
-	"github.com/opn-ooo/opn-generator/internal/handlers"
+	"github.com/takaaki-mizuno/webapp-generator/internal"
+	"github.com/takaaki-mizuno/webapp-generator/internal/handlers"
 )
 
 // newCmd represents the new command

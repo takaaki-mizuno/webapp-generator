@@ -6,7 +6,7 @@ import (
 	"github.com/jinzhu/inflection"
 	"github.com/stoewer/go-strcase"
 
-	"github.com/opn-ooo/opn-generator/pkg/openapispec"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/openapispec"
 )
 
 // BuildLanguageSpecificInfo ...

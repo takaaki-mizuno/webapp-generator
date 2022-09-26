@@ -1,9 +1,9 @@
 package internal
 
 import (
-	"github.com/opn-ooo/opn-generator/config"
-	"github.com/opn-ooo/opn-generator/internal/handlers"
-	"github.com/opn-ooo/opn-generator/internal/services"
+	"github.com/takaaki-mizuno/webapp-generator/config"
+	"github.com/takaaki-mizuno/webapp-generator/internal/handlers"
+	"github.com/takaaki-mizuno/webapp-generator/internal/services"
 	"go.uber.org/dig"
 )
 

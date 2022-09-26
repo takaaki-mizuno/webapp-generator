@@ -6,7 +6,7 @@ import (
 	"github.com/jinzhu/inflection"
 	"github.com/stoewer/go-strcase"
 
-	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/databaseschema"
 )
 
 // BuildLanguageSpecificInfo ...

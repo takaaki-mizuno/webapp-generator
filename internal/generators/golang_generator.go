@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	apiGenerator "github.com/opn-ooo/opn-generator/internal/generators/golang/api"
-	databaseGenerator "github.com/opn-ooo/opn-generator/internal/generators/golang/database"
-	"github.com/opn-ooo/opn-generator/pkg/databaseschema"
-	"github.com/opn-ooo/opn-generator/pkg/files"
-	"github.com/opn-ooo/opn-generator/pkg/openapispec"
+	apiGenerator "github.com/takaaki-mizuno/webapp-generator/internal/generators/golang/api"
+	databaseGenerator "github.com/takaaki-mizuno/webapp-generator/internal/generators/golang/database"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/databaseschema"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/files"
+	"github.com/takaaki-mizuno/webapp-generator/pkg/openapispec"
 )
 
 // GolangGenerator ...
