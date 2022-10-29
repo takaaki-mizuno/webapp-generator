@@ -29,7 +29,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 		assert.NotNil(t, apiDefinitionPath)
 
 		gitService := NewGitService(configInstance)
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.Nil(t, err)
 
 		err = databaseService.GenerateDatabase(tempProjectPath, apiDefinitionPath, language, projectName, organizationName)
@@ -56,7 +56,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 		assert.NotNil(t, apiDefinitionPath)
 
 		gitService := NewGitService(configInstance)
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.Nil(t, err)
 
 		err = databaseService.GenerateDatabase("", apiDefinitionPath, language, projectName, organizationName)
@@ -79,7 +79,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 		tempProjectPath := currentPath + string(os.PathSeparator) + projectName
 
 		gitService := NewGitService(configInstance)
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.Nil(t, err)
 
 		err = databaseService.GenerateDatabase(tempProjectPath, "", language, projectName, organizationName)
@@ -106,7 +106,7 @@ func Test_databaseService_GenerateDatabase(t *testing.T) {
 		assert.NotNil(t, apiDefinitionPath)
 
 		gitService := NewGitService(configInstance)
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.Nil(t, err)
 
 		err = databaseService.GenerateDatabase(currentPath, apiDefinitionPath, language, projectName, organizationName)

@@ -19,7 +19,7 @@ func Test_gitService_DownloadBoilerplate(t *testing.T) {
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
 
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.Nil(t, err)
 
 		os.RemoveAll(currentPath + string(os.PathSeparator) + projectName)
@@ -34,7 +34,7 @@ func Test_gitService_DownloadBoilerplate(t *testing.T) {
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
 
-		err = gitService.DownloadBoilerplate("", projectName)
+		err = gitService.DownloadBoilerplate("", projectName, "go")
 		assert.NotNil(t, err)
 
 		os.Remove(currentPath + string(os.PathSeparator) + "go-boilerplate-main.zip")
@@ -49,7 +49,7 @@ func Test_gitService_DownloadBoilerplate(t *testing.T) {
 		currentPath, err := os.Getwd()
 		assert.Nil(t, err)
 
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.NotNil(t, err)
 
 		os.RemoveAll(currentPath + string(os.PathSeparator) + "go-boilerplate-main")

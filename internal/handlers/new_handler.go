@@ -16,8 +16,8 @@ type NewHandler struct {
 }
 
 // Execute ... make new project
-func (handler *NewHandler) Execute(projectName string, targetPath string, apiDefinitionPath string, databaseDefinitionPath string, organizationName string) error {
-	err := handler.gitService.DownloadBoilerplate(targetPath, projectName)
+func (handler *NewHandler) Execute(projectName string, targetPath string, apiDefinitionPath string, databaseDefinitionPath string, organizationName string, templateName string) error {
+	err := handler.gitService.DownloadBoilerplate(targetPath, projectName, templateName)
 	if err != nil {
 		log.Fatal(err)
 		return err

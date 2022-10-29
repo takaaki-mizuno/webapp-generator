@@ -13,8 +13,8 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "opn-generator",
-	Short: "opn project code generator",
+	Use:   "webapp-generator",
+	Short: "web application project code generator",
 	Long:  `It generate boilerplate code for web app`,
 }
 

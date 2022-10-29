@@ -29,7 +29,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		assert.NotNil(t, apiDefinitionPath)
 
 		gitService := NewGitService(configInstance)
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.Nil(t, err)
 
 		err = userAPIService.GenerateUserAPI(tempProjectPath, apiDefinitionPath, language, projectName, organizationName)
@@ -53,7 +53,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		assert.NotNil(t, apiDefinitionPath)
 
 		gitService := NewGitService(configInstance)
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.Nil(t, err)
 
 		language := "golang"
@@ -76,7 +76,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		assert.Nil(t, err)
 
 		gitService := NewGitService(configInstance)
-		err = gitService.DownloadBoilerplate(currentPath, projectName)
+		err = gitService.DownloadBoilerplate(currentPath, projectName, "go")
 		assert.Nil(t, err)
 
 		language := "golang"
@@ -106,7 +106,7 @@ func Test_userAPIService_GenerateUserAPI(t *testing.T) {
 		assert.NotNil(t, apiDefinitionPath)
 
 		gitService := NewGitService(configInstance)
-		err = gitService.DownloadBoilerplate(currentPath, "test")
+		err = gitService.DownloadBoilerplate(currentPath, "test", "go")
 		assert.Nil(t, err)
 
 		err = userAPIService.GenerateUserAPI(tempProjectPath, apiDefinitionPath, language, projectName, organizationName)

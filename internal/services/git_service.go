@@ -16,7 +16,7 @@ import (
 
 // GitServiceInterface ...
 type GitServiceInterface interface {
-	DownloadBoilerplate(path string, projectName string) error
+	DownloadBoilerplate(path string, projectName string, templateName string) error
 }
 
 // GitService ...
@@ -25,8 +25,15 @@ type GitService struct {
 }
 
 // DownloadBoilerplate ...
-func (service *GitService) DownloadBoilerplate(path string, projectName string) error {
-	zipFilePath, err := downloadFile(service.config.Boilerplate.URL, path)
+func (service *GitService) DownloadBoilerplate(path string, projectName string, templateName string) error {
+	var gitDownloadURL string
+	if templateName == "go" {
+		gitDownloadURL = service.config.Boilerplate.GoGin.URL
+	} else if templateName == "php" {
+		gitDownloadURL = service.config.Boilerplate.PHPLaravel.URL
+	}
+
+	zipFilePath, err := downloadFile(gitDownloadURL, path)
 	if err != nil {
 		return err
 	}
@@ -46,6 +53,10 @@ func (service *GitService) DownloadBoilerplate(path string, projectName string) 
 		return err
 	}
 	return nil
+}
+
+func getTemplateUrl(templateName string) {
+
 }
 
 func downloadFile(targetURL string, directoryPath string) (string, error) {

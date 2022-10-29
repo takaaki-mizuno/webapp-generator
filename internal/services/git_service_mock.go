@@ -5,6 +5,6 @@ type MockGitService struct {
 }
 
 // DownloadBoilerplate ...
-func (service *MockGitService) DownloadBoilerplate(path string, projectName string) error {
+func (service *MockGitService) DownloadBoilerplate(path string, projectName string, templateName string) error {
 	return nil
 }
