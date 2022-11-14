@@ -17,6 +17,7 @@ limitations under the License.
 */
 
 import (
+	"errors"
 	"log"
 	"os"
 
@@ -55,6 +56,10 @@ var newCmd = &cobra.Command{
 		templateName, err := command.Flags().GetString("template")
 		if err != nil || templateName == "" {
 			templateName = "go"
+		}
+		if templateName != "go" && templateName != "php" {
+			log.Fatal(errors.New("unsupported template"))
+			return err
 		}
 
 		container := internal.BuildContainer()

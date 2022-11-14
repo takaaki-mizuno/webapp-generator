@@ -31,9 +31,10 @@ func Parse(filePath string, projectName string, organizationName string) (*Schem
 	for _, entity := range entities {
 		entityName := entity[1]
 		entityObject := Entity{
-			Name:       generateName(entityName),
-			HasDecimal: false,
-			HasJSON:    false,
+			Name:          generateName(entityName),
+			HasDecimal:    false,
+			HasJSON:       false,
+			UseSoftDelete: false,
 		}
 		columns := strings.Split(strings.TrimSpace(entity[2]), "\n")
 		for _, column := range columns {
@@ -75,7 +76,6 @@ func Parse(filePath string, projectName string, organizationName string) (*Schem
 				} else {
 					columnObject.IsCommonColumn = false
 				}
-
 				entityObject.Columns = append(entityObject.Columns, columnObject)
 				if name == "id" {
 					entityObject.PrimaryKey = columnObject
@@ -85,6 +85,12 @@ func Parse(filePath string, projectName string, organizationName string) (*Schem
 				}
 				if strings.HasPrefix(dataType, "json") {
 					entityObject.HasJSON = true
+				}
+				if name == "deleted_at" {
+					columnObject.IsSystemUseColumn = true
+					entityObject.UseSoftDelete = true
+				} else {
+					columnObject.IsSystemUseColumn = false
 				}
 			}
 		}

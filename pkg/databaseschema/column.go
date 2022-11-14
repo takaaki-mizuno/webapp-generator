@@ -17,4 +17,5 @@ type Column struct {
 	IsCommonColumn    bool
 	TableName         Name
 	RelationTableName Name
+	IsSystemUseColumn bool
 }
