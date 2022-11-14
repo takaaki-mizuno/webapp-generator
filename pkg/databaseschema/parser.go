@@ -192,7 +192,7 @@ func checkAPIReturnable(column *Column) bool {
 }
 
 func checkAPIUpdatable(column *Column) bool {
-	if column.Name.Original == "id" || column.Name.Original == "created_at" || column.Name.Original == "updated_at" {
+	if column.Name.Original == "id" || column.Name.Original == "created_at" || column.Name.Original == "updated_at" || column.Name.Original == "deleted_at" {
 		return false
 	}
 	return true
