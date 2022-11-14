@@ -53,7 +53,7 @@ var newCmd = &cobra.Command{
 			return err
 		}
 		templateName, err := command.Flags().GetString("template")
-		if err != nil {
+		if err != nil || templateName == "" {
 			templateName = "go"
 		}
 
